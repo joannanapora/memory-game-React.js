@@ -2,7 +2,8 @@ import React from "react";
 import Card from "../card/card.component";
 import "../card-list/card-list.scss";
 
-const CardList = ({ numberOfCards, classOfGrid }) => {
+
+const CardList = ({ numberOfCards, classOfGrid }: {numberOfCards: number, classOfGrid: string}) => {
   let rows = [];
 
   for (let i = 0; i < numberOfCards; i++) {
