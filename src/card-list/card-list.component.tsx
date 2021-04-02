@@ -4,6 +4,11 @@ import "../card-list/card-list.scss";
 
 const TIME_FOR_PEEK = 800;
 
+export interface ICard {
+  id: number;
+  isFlipped: boolean;
+}
+
 const CardList = ({
   classOfGrid,
   numberOfCards,
@@ -11,9 +16,9 @@ const CardList = ({
   classOfGrid: string;
   numberOfCards: number;
 }) => {
-  const [cards, setCards]: [any, any] = useState([]);
-  const [flippedCardsCounter, setFlippedCardsCounter] = useState(0);
-  const [idOfFirstCard, setIdOfFirstCard] = useState(123);
+  const [cards, setCards] = useState<ICard[]>([]);
+  const [flippedCardsCounter, setFlippedCardsCounter] = useState<number>(0);
+  const [idOfFirstCard, setIdOfFirstCard] = useState<number>(-1);
 
   if (numberOfCards !== cards.length) {
     const mockData = [];
@@ -30,10 +35,12 @@ const CardList = ({
         return { ...element, isFlipped: false };
       });
 
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         setCards(listAfterFlip);
         setFlippedCardsCounter(0);
       }, TIME_FOR_PEEK);
+
+      return () => clearTimeout(timer);
     }
   }, [flippedCardsCounter]);
 

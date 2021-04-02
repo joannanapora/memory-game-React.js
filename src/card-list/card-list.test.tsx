@@ -19,12 +19,12 @@ describe("CardList Component", () => {
   });
 
   test("renders Card header correctly", () => {
-    wrapper.getAllByText("Memory Card");
+    wrapper.getAllByText("Memory");
   });
 
   test("renders correct initial amount of cards", () => {
-    wrapper.getAllByText("Memory Card");
-    const numberOfRenderedCards = wrapper.getAllByText("Memory Card").length;
+    wrapper.getAllByText("Memory");
+    const numberOfRenderedCards = wrapper.getAllByText("Memory").length;
     expect(numberOfRenderedCards).toEqual(MOCKED_CARD_AMOUNT);
   });
 
@@ -38,7 +38,7 @@ describe("CardList Component", () => {
       wrapper.container.getElementsByClassName("card-inner").length
     ).toEqual(16);
 
-    const listOfCards = wrapper.getAllByText("Memory Card");
+    const listOfCards = wrapper.getAllByText("Memory");
     fireEvent.click(listOfCards[0]);
     expect(
       wrapper.container.getElementsByClassName("card-inner-flipped").length
@@ -49,7 +49,7 @@ describe("CardList Component", () => {
   });
 
   test("only 2 cards in the same time can be flipped", () => {
-    const listOfCards = wrapper.getAllByText("Memory Card");
+    const listOfCards = wrapper.getAllByText("Memory");
 
     fireEvent.click(listOfCards[0]);
     fireEvent.click(listOfCards[1]);
@@ -61,7 +61,7 @@ describe("CardList Component", () => {
   });
 
   test("flipping and fast hidding the same card should not be possible", () => {
-    const listOfCards = wrapper.getAllByText("Memory Card");
+    const listOfCards = wrapper.getAllByText("Memory");
 
     expect(
       wrapper.container.getElementsByClassName("card-inner-flipped").length
@@ -79,7 +79,7 @@ describe("CardList Component", () => {
   });
 
   test("all cards should be hidden 0.8 sec after  ", async () => {
-    const listOfCards = wrapper.getAllByText("Memory Card");
+    const listOfCards = wrapper.getAllByText("Memory");
     expect(
       wrapper.container.getElementsByClassName("card-inner-flipped").length
     ).toEqual(0);

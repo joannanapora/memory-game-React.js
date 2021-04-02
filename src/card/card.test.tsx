@@ -20,6 +20,6 @@ beforeEach(() => {
 
 describe("Card Component", () => {
   test("renders Card header correctly", () => {
-    wrapper.getByText("Memory Card");
+    wrapper.getByText("Memory");
   });
 });

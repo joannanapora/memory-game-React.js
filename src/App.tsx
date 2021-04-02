@@ -16,15 +16,8 @@ enum GridClasses {
 }
 
 const App = () => {
-  const [gridClassName, setGridClassName]: [
-    string,
-    Dispatch<SetStateAction<string>>
-  ] = useState("grid-container4");
-
-  const [numberOfCards, setNumberOfCards]: [
-    number,
-    Dispatch<SetStateAction<number>>
-  ] = useState(16);
+  const [gridClassName, setGridClassName] = useState<string>("grid-container4");
+  const [numberOfCards, setNumberOfCards] = useState<number>(16);
 
   const onSizeChange = (id: string) => {
     if (id === Sizes.SMALL) {
@@ -63,7 +56,6 @@ const App = () => {
           className="cardsize-button"
           onClick={() => onSizeChange(Sizes.LARGE)}
         >
-          {" "}
           8x4
         </button>
       </div>

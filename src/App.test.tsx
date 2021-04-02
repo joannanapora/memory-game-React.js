@@ -18,19 +18,19 @@ describe("App Component", () => {
     test("clicked button '4x4' renders 16cards", () => {
       const button = wrapper.getByText("4x4");
       fireEvent.click(button);
-      const numberOfRenderedCards = wrapper.getAllByText("Memory Card").length;
+      const numberOfRenderedCards = wrapper.getAllByText("Memory").length;
       expect(numberOfRenderedCards).toEqual(16);
     });
     test("clicked button '6x4' renders 24cards", () => {
       const button = wrapper.getByText("6x4");
       fireEvent.click(button);
-      const numberOfRenderedCards = wrapper.getAllByText("Memory Card").length;
+      const numberOfRenderedCards = wrapper.getAllByText("Memory").length;
       expect(numberOfRenderedCards).toEqual(24);
     });
     test("clicked button '8x4' renders 32cards", () => {
       const button = wrapper.getByText("8x4");
       fireEvent.click(button);
-      const numberOfRenderedCards = wrapper.getAllByText("Memory Card").length;
+      const numberOfRenderedCards = wrapper.getAllByText("Memory").length;
       expect(numberOfRenderedCards).toEqual(32);
     });
   });
