@@ -20,6 +20,7 @@ const App = () => {
     string,
     Dispatch<SetStateAction<string>>
   ] = useState("grid-container4");
+
   const [numberOfCards, setNumberOfCards]: [
     number,
     Dispatch<SetStateAction<number>>
@@ -43,12 +44,28 @@ const App = () => {
   return (
     <div className="App">
       <div className="cards">
-        <CardList classOfGrid={gridClassName} numberOfCards={numberOfCards} />
+        <CardList numberOfCards={numberOfCards} classOfGrid={gridClassName} />
       </div>
       <div className="menu">
-        <button onClick={() => onSizeChange(Sizes.SMALL)}>4x4</button>
-        <button onClick={() => onSizeChange(Sizes.MEDIUM)}>6x4</button>
-        <button onClick={() => onSizeChange(Sizes.LARGE)}> 8x4</button>
+        <button
+          className="cardsize-button"
+          onClick={() => onSizeChange(Sizes.SMALL)}
+        >
+          4x4
+        </button>
+        <button
+          className="cardsize-button"
+          onClick={() => onSizeChange(Sizes.MEDIUM)}
+        >
+          6x4
+        </button>
+        <button
+          className="cardsize-button"
+          onClick={() => onSizeChange(Sizes.LARGE)}
+        >
+          {" "}
+          8x4
+        </button>
       </div>
     </div>
   );

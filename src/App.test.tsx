@@ -1,12 +1,6 @@
 import React from "react";
-import {
-  fireEvent,
-  getByText,
-  render,
-  RenderResult,
-} from "@testing-library/react";
+import { fireEvent, render, RenderResult } from "@testing-library/react";
 import App from "./App";
-import ReactDOM from "react-dom";
 
 describe("App Component", () => {
   let wrapper: RenderResult;
