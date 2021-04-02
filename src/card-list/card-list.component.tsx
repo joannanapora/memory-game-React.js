@@ -38,6 +38,7 @@ const CardList = ({
       const timer = setTimeout(() => {
         setCards(listAfterFlip);
         setFlippedCardsCounter(0);
+        setIdOfFirstCard(-1);
       }, TIME_FOR_PEEK);
 
       return () => clearTimeout(timer);
