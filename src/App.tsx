@@ -1,14 +1,9 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import CardList from "./card-list/card-list.component";
 import { CardsData } from "./card-list/cards-data";
-
+import { v4 as uuid } from "uuid";
 import "./App.scss";
-
-export interface ICard {
-  id: number;
-  isFlipped: boolean;
-  icon: any;
-}
+import { ICard } from "./interfaces/card.interface";
 
 enum Sizes {
   SMALL = "4",
@@ -26,52 +21,56 @@ const App = () => {
   const [gridClassName, setGridClassName] = useState<string>("grid-container4");
   const [shuffledCards, setShuffledCards] = useState<ICard[]>([]);
 
-  const shufflePreparedCards = (Z: number, A: ICard[]) => {
-    var i = A.length,
-      j = 0,
-      temp;
-    while (i--) {
-      j = Math.floor(Math.random() * (i + 1));
-      temp = A[i];
-      A[i] = A[j];
-      A[j] = temp;
-      setShuffledCards(A);
-      console.log(A);
-      return A;
-    }
-  };
-
-  const shuffle = (Z: number) => {
-    let i = CardsData.length;
+  const shufflePreparedCards = (cardsBeforeShuffling: ICard[]) => {
+    let i = cardsBeforeShuffling.length;
     let j = 0;
     let temp;
 
     while (i--) {
-      j = Math.floor(Math.random() * (i + 1));
-      temp = CardsData[i];
-      CardsData[i] = CardsData[j];
-      CardsData[j] = temp;
+      j = Math.floor(Math.random() * i + 1);
+      temp = cardsBeforeShuffling[i];
+      cardsBeforeShuffling[i] = cardsBeforeShuffling[j];
+      cardsBeforeShuffling[j] = temp;
     }
 
-    let arrayList = CardsData.slice(1, Z + 1);
-    console.log(arrayList);
-    let doubleArray = arrayList.concat(arrayList);
-    shufflePreparedCards(Z, doubleArray);
-    return;
+    setShuffledCards(cardsBeforeShuffling);
+  };
+
+  const prepareSetOfCards = (cardPairs: number) => {
+    let listOfCards: ICard[] = [];
+    let i = cardPairs;
+    let j = 0;
+    let counter = 0;
+
+    while (counter !== i) {
+      j = Math.floor(Math.random() * CardsData.length);
+      const objectToAdd = { ...CardsData[j], id: uuid() };
+
+      const isInObject = listOfCards.find(
+        (element) => element.iconId === objectToAdd.iconId
+      );
+
+      if (!isInObject) {
+        listOfCards.push(objectToAdd);
+        listOfCards.push({ ...objectToAdd, id: uuid() });
+        counter++;
+      }
+    }
+    shufflePreparedCards(listOfCards);
   };
 
   const onSizeChange = (id: string) => {
     if (id === Sizes.SMALL) {
       setGridClassName(GridClasses.SMALL);
-      shuffle(8);
+      prepareSetOfCards(8);
     }
     if (id === Sizes.MEDIUM) {
       setGridClassName(GridClasses.MEDIUM);
-      shuffle(12);
+      prepareSetOfCards(12);
     }
     if (id === Sizes.LARGE) {
       setGridClassName(GridClasses.LARGE);
-      shuffle(16);
+      prepareSetOfCards(16);
     }
   };
 

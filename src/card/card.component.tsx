@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import "./card.component.scss";
 
 const Card = ({
@@ -7,10 +7,10 @@ const Card = ({
   cardID,
   icon,
 }: {
-  toggleClass: (cardId: number) => void;
+  toggleClass: (cardID: string) => void;
   isFlipped: boolean;
-  cardID: number;
-  icon: string;
+  cardID: string;
+  icon: ReactElement;
 }) => {
   return (
     <div onClick={() => toggleClass(cardID)} className="card">

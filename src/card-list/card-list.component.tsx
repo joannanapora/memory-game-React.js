@@ -1,20 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Card from "../card/card.component";
 import "../card-list/card-list.scss";
+import { ICard } from "../interfaces/card.interface";
 
 const TIME_FOR_PEEK = 800;
-
-interface ICard {
-  id: number;
-  isFlipped: boolean;
-  icon: any;
-}
-
-enum AMOUNT_OF_CARDS {
-  SMALL = 16,
-  MEDIUM = 24,
-  LARGE = 32,
-}
 
 const CardList = ({
   classOfGrid,
@@ -25,12 +14,13 @@ const CardList = ({
 }) => {
   const [cards, setCards] = useState<ICard[]>(cardsAfterPick);
   const [flippedCardsCounter, setFlippedCardsCounter] = useState<number>(0);
-  const [idOfFirstCard, setIdOfFirstCard] = useState<number>(123);
+  const [idOfFirstCard, setIdOfFirstCard] = useState<string>();
 
   useEffect(() => {
     if (cardsAfterPick.length !== cards.length) {
       setCards(cardsAfterPick);
     }
+
     if (flippedCardsCounter === 2) {
       const listAfterFlip = cards.map((element: any) => {
         return { ...element, isFlipped: false };
@@ -39,14 +29,14 @@ const CardList = ({
       const timer = setTimeout(() => {
         setCards(listAfterFlip);
         setFlippedCardsCounter(0);
-        setIdOfFirstCard(-1);
+        setIdOfFirstCard("");
       }, TIME_FOR_PEEK);
 
       return () => clearTimeout(timer);
     }
-  }, [flippedCardsCounter, cardsAfterPick]);
+  }, [flippedCardsCounter, classOfGrid]);
 
-  const toggleClass = (id: number) => {
+  const toggleClass = (id: string) => {
     if (flippedCardsCounter < 2) {
       const listAfterClick = cards.map((element: any) => {
         if (id === element.id && id !== idOfFirstCard) {
@@ -62,7 +52,7 @@ const CardList = ({
 
   return (
     <div className={classOfGrid}>
-      {cards?.map((card: any, i) => {
+      {cards?.map((card: ICard, i) => {
         return (
           <Card
             icon={card.icon}
