@@ -1,13 +1,15 @@
 body {
-  font-family: Roboto, sans-serif;
+  font-family: "New Tegomin", serif;
+  font-weight: 900;
+  font-size: 3vh;
   width: 100%;
   height: 100vh;
   overflow: hidden;
 }
 
 :root {
-  --primary: yellow;
-  --secondary: green;
+  --primary: #ffcb00;
+  --secondary: #00b764;
   --dark: rgb(0, 0, 0);
   --light: rgb(255, 255, 255);
 }
