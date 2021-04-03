@@ -11,6 +11,7 @@ let wrapper: RenderResult;
 beforeEach(() => {
   wrapper = render(
     <Card
+      icon={".svg"}
       cardID={MOCK_ID}
       toggleClass={TOGGLE_CLASS}
       isFlipped={MOCK_FLIPPED}

@@ -1,35 +1,36 @@
-import React, { Dispatch, SetStateAction, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "../card/card.component";
 import "../card-list/card-list.scss";
 
 const TIME_FOR_PEEK = 800;
 
-export interface ICard {
+interface ICard {
   id: number;
   isFlipped: boolean;
+  icon: any;
+}
+
+enum AMOUNT_OF_CARDS {
+  SMALL = 16,
+  MEDIUM = 24,
+  LARGE = 32,
 }
 
 const CardList = ({
   classOfGrid,
-  numberOfCards,
+  cardsAfterPick,
 }: {
   classOfGrid: string;
-  numberOfCards: number;
+  cardsAfterPick: ICard[];
 }) => {
-  const [cards, setCards] = useState<ICard[]>([]);
+  const [cards, setCards] = useState<ICard[]>(cardsAfterPick);
   const [flippedCardsCounter, setFlippedCardsCounter] = useState<number>(0);
-  const [idOfFirstCard, setIdOfFirstCard] = useState<number>(-1);
-
-  if (numberOfCards !== cards.length) {
-    const mockData = [];
-    for (let i = 0; i < numberOfCards; i++) {
-      mockData.push({ id: i, isFlipped: false });
-    }
-
-    setCards(mockData);
-  }
+  const [idOfFirstCard, setIdOfFirstCard] = useState<number>(123);
 
   useEffect(() => {
+    if (cardsAfterPick.length !== cards.length) {
+      setCards(cardsAfterPick);
+    }
     if (flippedCardsCounter === 2) {
       const listAfterFlip = cards.map((element: any) => {
         return { ...element, isFlipped: false };
@@ -43,7 +44,7 @@ const CardList = ({
 
       return () => clearTimeout(timer);
     }
-  }, [flippedCardsCounter]);
+  }, [flippedCardsCounter, cardsAfterPick]);
 
   const toggleClass = (id: number) => {
     if (flippedCardsCounter < 2) {
@@ -61,12 +62,13 @@ const CardList = ({
 
   return (
     <div className={classOfGrid}>
-      {cards.map((card: any) => {
+      {cards?.map((card: any, i) => {
         return (
           <Card
+            icon={card.icon}
             isFlipped={card.isFlipped}
             toggleClass={toggleClass}
-            key={card.id}
+            key={i}
             cardID={card.id}
           />
         );

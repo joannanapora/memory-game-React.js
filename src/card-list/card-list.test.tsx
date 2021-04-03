@@ -4,15 +4,14 @@ import CardList from "./card-list.component";
 
 describe("CardList Component", () => {
   const MOCKED_GRID_CLASS = "grid-container4";
-  const TOGGLE_CLASS = jest.fn();
-  const MOCKED_CARD_AMOUNT = 16;
+  const MOCKED_CARDS_LIST = [{ id: 1, isFlipped: false, icon: <div /> }];
 
   let wrapper: any;
 
   beforeEach(() => {
     wrapper = render(
       <CardList
-        numberOfCards={MOCKED_CARD_AMOUNT}
+        cardsAfterPick={MOCKED_CARDS_LIST}
         classOfGrid={MOCKED_GRID_CLASS}
       />
     );
@@ -25,7 +24,7 @@ describe("CardList Component", () => {
   test("renders correct initial amount of cards", () => {
     wrapper.getAllByText("Memory");
     const numberOfRenderedCards = wrapper.getAllByText("Memory").length;
-    expect(numberOfRenderedCards).toEqual(MOCKED_CARD_AMOUNT);
+    expect(numberOfRenderedCards).toEqual(MOCKED_CARDS_LIST);
   });
 
   test("grid gets correct initial className", () => {
