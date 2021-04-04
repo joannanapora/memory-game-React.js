@@ -14,7 +14,7 @@ const CardList = ({
 }) => {
   const [cards, setCards] = useState<ICard[]>(cardsAfterPick);
   const [flippedCardsCounter, setFlippedCardsCounter] = useState<number>(0);
-  const [idOfFirstCard, setIdOfFirstCard] = useState<string>();
+  const [idOfFirstFlippedCard, setidOfFirstFlippedCard] = useState<string>();
 
   useEffect(() => {
     if (cardsAfterPick.length !== cards.length) {
@@ -22,14 +22,14 @@ const CardList = ({
     }
 
     if (flippedCardsCounter === 2) {
-      const listAfterFlip = cards.map((element: any) => {
+      const listAfterFlipped = cards.map((element: any) => {
         return { ...element, isFlipped: false };
       });
 
       const timer = setTimeout(() => {
-        setCards(listAfterFlip);
+        setCards(listAfterFlipped);
         setFlippedCardsCounter(0);
-        setIdOfFirstCard("");
+        setidOfFirstFlippedCard("");
       }, TIME_FOR_PEEK);
 
       return () => clearTimeout(timer);
@@ -39,9 +39,9 @@ const CardList = ({
   const toggleClass = (id: string) => {
     if (flippedCardsCounter < 2) {
       const listAfterClick = cards.map((element: any) => {
-        if (id === element.id && id !== idOfFirstCard) {
+        if (id === element.id && id !== idOfFirstFlippedCard) {
           setFlippedCardsCounter(flippedCardsCounter + 1);
-          setIdOfFirstCard(element.id);
+          setidOfFirstFlippedCard(element.id);
           return { ...element, isFlipped: true };
         }
         return element;
