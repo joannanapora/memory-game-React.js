@@ -14,22 +14,50 @@ const CardList = ({
 }) => {
   const [cards, setCards] = useState<ICard[]>(cardsAfterPick);
   const [flippedCardsCounter, setFlippedCardsCounter] = useState<number>(0);
-  const [idOfFirstFlippedCard, setidOfFirstFlippedCard] = useState<string>();
+  const [iconIdOfFirstElement, setIconIdOfFirstCard] = useState<number[]>([]);
 
   useEffect(() => {
     if (cardsAfterPick.length !== cards.length) {
       setCards(cardsAfterPick);
     }
-
-    if (flippedCardsCounter === 2) {
-      const listAfterFlipped = cards.map((element: any) => {
+    if (
+      flippedCardsCounter === 2 &&
+      iconIdOfFirstElement[0] !== iconIdOfFirstElement[1]
+    ) {
+      const listAfterFlip = cards.map((element: any) => {
+        if (element.isMatched) {
+          return { ...element, isFlipped: true };
+        }
         return { ...element, isFlipped: false };
       });
 
       const timer = setTimeout(() => {
-        setCards(listAfterFlipped);
+        setCards(listAfterFlip);
         setFlippedCardsCounter(0);
-        setidOfFirstFlippedCard("");
+        setIconIdOfFirstCard([]);
+      }, TIME_FOR_PEEK);
+
+      return () => clearTimeout(timer);
+    }
+
+    if (
+      flippedCardsCounter === 2 &&
+      iconIdOfFirstElement[0] === iconIdOfFirstElement[1]
+    ) {
+      const listAfterFlip = cards.map((element: any) => {
+        if (
+          element.iconId === iconIdOfFirstElement[0] ||
+          element.iconId === iconIdOfFirstElement[1]
+        ) {
+          return { ...element, isFlipped: true, isMatched: true };
+        }
+        return element;
+      });
+
+      const timer = setTimeout(() => {
+        setCards(listAfterFlip);
+        setFlippedCardsCounter(0);
+        setIconIdOfFirstCard([]);
       }, TIME_FOR_PEEK);
 
       return () => clearTimeout(timer);
@@ -39,10 +67,13 @@ const CardList = ({
   const toggleClass = (id: string) => {
     if (flippedCardsCounter < 2) {
       const listAfterClick = cards.map((element: any) => {
-        if (id === element.id && id !== idOfFirstFlippedCard) {
+        if (id === element.id) {
           setFlippedCardsCounter(flippedCardsCounter + 1);
-          setidOfFirstFlippedCard(element.id);
+          setIconIdOfFirstCard([...iconIdOfFirstElement, element.iconId]);
           return { ...element, isFlipped: true };
+        }
+        if (id === element.id && element.iconId === iconIdOfFirstElement) {
+          return { ...element, isMatched: true };
         }
         return element;
       });
@@ -55,6 +86,7 @@ const CardList = ({
       {cards?.map((card: ICard, i) => {
         return (
           <Card
+            isMatched={card.isMatched}
             icon={card.icon}
             isFlipped={card.isFlipped}
             toggleClass={toggleClass}

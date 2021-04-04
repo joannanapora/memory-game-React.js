@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import "./card.component.scss";
 
 const Card = ({
@@ -6,19 +6,24 @@ const Card = ({
   toggleClass,
   cardID,
   icon,
+  isMatched,
 }: {
   toggleClass: (cardID: string) => void;
   isFlipped: boolean;
   cardID: string;
   icon: ReactElement;
+  isMatched: boolean;
 }) => {
-  return (
-    <div onClick={() => toggleClass(cardID)} className="card">
+  return isMatched ? (
+    <div className="card"></div>
+  ) : (
+    <div
+      onClick={() => toggleClass(cardID)}
+      data-testid="Memory"
+      className="card"
+    >
       <div className={isFlipped ? "card-inner-flipped" : "card-inner"}>
-        <div className="card-face card-face-front">
-          <h3>Memory</h3>
-          <h3>Card</h3>
-        </div>
+        <div className="card-face card-face-front"></div>
         <div className="card-face card-face-back">
           <div className="card-content">
             {icon}
