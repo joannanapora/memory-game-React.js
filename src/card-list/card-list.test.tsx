@@ -4,15 +4,19 @@ import CardList from "./card-list.component";
 
 describe("CardList Component", () => {
   const MOCKED_GRID_CLASS = "grid-container4";
-  const TOGGLE_CLASS = jest.fn();
-  const MOCKED_CARD_AMOUNT = 16;
+  const MOCKED_CARDS_LIST = [
+    { id: "u32asddagfs4324", isFlipped: false, icon: <div />, iconId: 4 },
+    { id: "u3243bvgfdsfds24", isFlipped: false, icon: <div />, iconId: 4 },
+    { id: "zz344gfdgfdgw324", isFlipped: false, icon: <div />, iconId: 5 },
+    { id: "zz3443wewedgdgf24", isFlipped: false, icon: <div />, iconId: 5 },
+  ];
 
   let wrapper: any;
 
   beforeEach(() => {
     wrapper = render(
       <CardList
-        numberOfCards={MOCKED_CARD_AMOUNT}
+        cardsAfterPick={MOCKED_CARDS_LIST}
         classOfGrid={MOCKED_GRID_CLASS}
       />
     );
@@ -25,7 +29,7 @@ describe("CardList Component", () => {
   test("renders correct initial amount of cards", () => {
     wrapper.getAllByText("Memory");
     const numberOfRenderedCards = wrapper.getAllByText("Memory").length;
-    expect(numberOfRenderedCards).toEqual(MOCKED_CARD_AMOUNT);
+    expect(numberOfRenderedCards).toEqual(MOCKED_CARDS_LIST.length);
   });
 
   test("grid gets correct initial className", () => {
@@ -36,7 +40,7 @@ describe("CardList Component", () => {
   test("renders correct className of card variant onClick", () => {
     expect(
       wrapper.container.getElementsByClassName("card-inner").length
-    ).toEqual(16);
+    ).toEqual(MOCKED_CARDS_LIST.length);
 
     const listOfCards = wrapper.getAllByText("Memory");
     fireEvent.click(listOfCards[0]);
@@ -45,7 +49,7 @@ describe("CardList Component", () => {
     ).toEqual(1);
     expect(
       wrapper.container.getElementsByClassName("card-inner").length
-    ).toEqual(15);
+    ).toEqual(MOCKED_CARDS_LIST.length - 1);
   });
 
   test("only 2 cards in the same time can be flipped", () => {

@@ -18,20 +18,23 @@ describe("App Component", () => {
     test("clicked button '4x4' renders 16cards", () => {
       const button = wrapper.getByText("4x4");
       fireEvent.click(button);
-      const numberOfRenderedCards = wrapper.getAllByText("Memory").length;
-      expect(numberOfRenderedCards).toEqual(16);
+      expect(
+        wrapper.container.getElementsByClassName("grid-container4").length
+      ).toEqual(1);
     });
     test("clicked button '6x4' renders 24cards", () => {
       const button = wrapper.getByText("6x4");
       fireEvent.click(button);
-      const numberOfRenderedCards = wrapper.getAllByText("Memory").length;
-      expect(numberOfRenderedCards).toEqual(24);
+      expect(
+        wrapper.container.getElementsByClassName("grid-container6").length
+      ).toEqual(1);
     });
     test("clicked button '8x4' renders 32cards", () => {
       const button = wrapper.getByText("8x4");
       fireEvent.click(button);
-      const numberOfRenderedCards = wrapper.getAllByText("Memory").length;
-      expect(numberOfRenderedCards).toEqual(32);
+      expect(
+        wrapper.container.getElementsByClassName("grid-container8").length
+      ).toEqual(1);
     });
   });
 });

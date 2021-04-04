@@ -1,56 +1,47 @@
-import React, { Dispatch, SetStateAction, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "../card/card.component";
 import "../card-list/card-list.scss";
+import { ICard } from "../interfaces/card.interface";
 
 const TIME_FOR_PEEK = 800;
 
-export interface ICard {
-  id: number;
-  isFlipped: boolean;
-}
-
 const CardList = ({
   classOfGrid,
-  numberOfCards,
+  cardsAfterPick,
 }: {
   classOfGrid: string;
-  numberOfCards: number;
+  cardsAfterPick: ICard[];
 }) => {
-  const [cards, setCards] = useState<ICard[]>([]);
+  const [cards, setCards] = useState<ICard[]>(cardsAfterPick);
   const [flippedCardsCounter, setFlippedCardsCounter] = useState<number>(0);
-  const [idOfFirstCard, setIdOfFirstCard] = useState<number>(-1);
-
-  if (numberOfCards !== cards.length) {
-    const mockData = [];
-    for (let i = 0; i < numberOfCards; i++) {
-      mockData.push({ id: i, isFlipped: false });
-    }
-
-    setCards(mockData);
-  }
+  const [idOfFirstFlippedCard, setidOfFirstFlippedCard] = useState<string>();
 
   useEffect(() => {
+    if (cardsAfterPick.length !== cards.length) {
+      setCards(cardsAfterPick);
+    }
+
     if (flippedCardsCounter === 2) {
-      const listAfterFlip = cards.map((element: any) => {
+      const listAfterFlipped = cards.map((element: any) => {
         return { ...element, isFlipped: false };
       });
 
       const timer = setTimeout(() => {
-        setCards(listAfterFlip);
+        setCards(listAfterFlipped);
         setFlippedCardsCounter(0);
-        setIdOfFirstCard(-1);
+        setidOfFirstFlippedCard("");
       }, TIME_FOR_PEEK);
 
       return () => clearTimeout(timer);
     }
-  }, [flippedCardsCounter]);
+  }, [flippedCardsCounter, classOfGrid]);
 
-  const toggleClass = (id: number) => {
+  const toggleClass = (id: string) => {
     if (flippedCardsCounter < 2) {
       const listAfterClick = cards.map((element: any) => {
-        if (id === element.id && id !== idOfFirstCard) {
+        if (id === element.id && id !== idOfFirstFlippedCard) {
           setFlippedCardsCounter(flippedCardsCounter + 1);
-          setIdOfFirstCard(element.id);
+          setidOfFirstFlippedCard(element.id);
           return { ...element, isFlipped: true };
         }
         return element;
@@ -61,12 +52,13 @@ const CardList = ({
 
   return (
     <div className={classOfGrid}>
-      {cards.map((card: any) => {
+      {cards?.map((card: ICard, i) => {
         return (
           <Card
+            icon={card.icon}
             isFlipped={card.isFlipped}
             toggleClass={toggleClass}
-            key={card.id}
+            key={i}
             cardID={card.id}
           />
         );

@@ -1,7 +1,9 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import CardList from "./card-list/card-list.component";
-
+import { CardsData } from "./card-list/cards-data";
+import { v4 as uuid } from "uuid";
 import "./App.scss";
+import { ICard } from "./interfaces/card.interface";
 
 enum Sizes {
   SMALL = "4",
@@ -17,27 +19,65 @@ enum GridClasses {
 
 const App = () => {
   const [gridClassName, setGridClassName] = useState<string>("grid-container4");
-  const [numberOfCards, setNumberOfCards] = useState<number>(16);
+  const [shuffledCards, setShuffledCards] = useState<ICard[]>([]);
+
+  const shufflePreparedCards = (cardsBeforeShuffling: ICard[]) => {
+    let i = cardsBeforeShuffling.length;
+    let j = 0;
+    let temp;
+
+    while (i--) {
+      j = Math.floor(Math.random() * i + 1);
+      temp = cardsBeforeShuffling[i];
+      cardsBeforeShuffling[i] = cardsBeforeShuffling[j];
+      cardsBeforeShuffling[j] = temp;
+    }
+
+    setShuffledCards(cardsBeforeShuffling);
+  };
+
+  const prepareSetOfCards = (cardPairs: number) => {
+    let listOfCards: ICard[] = [];
+    let i = cardPairs;
+    let j = 0;
+    let counter = 0;
+
+    while (counter !== i) {
+      j = Math.floor(Math.random() * CardsData.length);
+      const objectToAdd = { ...CardsData[j], id: uuid() };
+
+      const isInObject = listOfCards.find(
+        (element) => element.iconId === objectToAdd.iconId
+      );
+
+      if (!isInObject) {
+        listOfCards.push(objectToAdd);
+        listOfCards.push({ ...objectToAdd, id: uuid() });
+        counter++;
+      }
+    }
+    shufflePreparedCards(listOfCards);
+  };
 
   const onSizeChange = (id: string) => {
     if (id === Sizes.SMALL) {
       setGridClassName(GridClasses.SMALL);
-      setNumberOfCards(16);
+      prepareSetOfCards(8);
     }
     if (id === Sizes.MEDIUM) {
       setGridClassName(GridClasses.MEDIUM);
-      setNumberOfCards(24);
+      prepareSetOfCards(12);
     }
     if (id === Sizes.LARGE) {
       setGridClassName(GridClasses.LARGE);
-      setNumberOfCards(32);
+      prepareSetOfCards(16);
     }
   };
 
   return (
     <div className="App">
       <div className="cards">
-        <CardList numberOfCards={numberOfCards} classOfGrid={gridClassName} />
+        <CardList cardsAfterPick={shuffledCards} classOfGrid={gridClassName} />
       </div>
       <div className="menu">
         <button

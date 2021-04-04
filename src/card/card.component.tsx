@@ -1,15 +1,16 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import "./card.component.scss";
-import { ReactComponent as MemoryIcon } from "../assets/001-arc de triomphe.svg";
 
 const Card = ({
   isFlipped,
   toggleClass,
   cardID,
+  icon,
 }: {
-  toggleClass: (cardId: number) => void;
+  toggleClass: (cardID: string) => void;
   isFlipped: boolean;
-  cardID: number;
+  cardID: string;
+  icon: ReactElement;
 }) => {
   return (
     <div onClick={() => toggleClass(cardID)} className="card">
@@ -20,7 +21,7 @@ const Card = ({
         </div>
         <div className="card-face card-face-back">
           <div className="card-content">
-            <MemoryIcon className="icon" />
+            {icon}
             <div className="card-header"></div>
             <div className="card-body"></div>
           </div>
