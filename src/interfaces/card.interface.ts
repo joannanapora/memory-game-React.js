@@ -3,4 +3,5 @@ export interface ICard {
     isFlipped: boolean;
     icon: any;
     iconId: number;
+    isMatched: boolean;
   }

@@ -7,12 +7,13 @@ const MOCK_FLIPPED = false;
 const TOGGLE_CLASS = jest.fn();
 const MOCK_ID = "3dsa34";
 const MOCK_ICON = CardsData[0].icon;
-
+const MOCK_ISMATCHED = false;
 let wrapper: RenderResult;
 
 beforeEach(() => {
   wrapper = render(
     <Card
+      isMatched={MOCK_ISMATCHED}
       icon={MOCK_ICON}
       cardID={MOCK_ID}
       toggleClass={TOGGLE_CLASS}
@@ -23,6 +24,6 @@ beforeEach(() => {
 
 describe("Card Component", () => {
   test("renders Card header correctly", () => {
-    wrapper.getByText("Memory");
+    wrapper.getByTestId("Memory");
   });
 });
