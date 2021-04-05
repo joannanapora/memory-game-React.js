@@ -25,7 +25,6 @@ const CardList = ({
   };
 
   useEffect(() => {
-    console.log(counterOfMatches);
     if (counterOfMatches === cards.length - 1) {
       RedirectToWinnerPage();
     }

@@ -133,7 +133,11 @@ const MemoryMenu = () => {
         <h3>HARD - 32 CARDS</h3>
       </div>
       <div className="start-button-container">
-        <button onClick={startGame} className="start-button">
+        <button
+          disabled={shuffledCards.length === 0}
+          onClick={startGame}
+          className="start-button"
+        >
           START
         </button>
       </div>
