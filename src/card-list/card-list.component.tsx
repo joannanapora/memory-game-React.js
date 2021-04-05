@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Card from "../card/card.component";
 import "../card-list/card-list.scss";
 import { ICard } from "../interfaces/card.interface";
+import { useHistory } from "react-router-dom";
 
 const TIME_FOR_PEEK = 800;
 
@@ -15,11 +16,20 @@ const CardList = ({
   const [cards, setCards] = useState<ICard[]>(cardsAfterPick);
   const [flippedCardsCounter, setFlippedCardsCounter] = useState<number>(0);
   const [idOfFlippedCards, setidOfFlippedCards] = useState<number[]>([]);
+  const [counterOfMatches, setCounterOfMatches] = useState<number>(0);
+
+  let history = useHistory();
+
+  const RedirectToWinnerPage = () => {
+    history.push("/winner");
+  };
 
   useEffect(() => {
-    if (cardsAfterPick.length !== cards.length) {
-      setCards(cardsAfterPick);
+    console.log(counterOfMatches);
+    if (counterOfMatches === cards.length - 1) {
+      RedirectToWinnerPage();
     }
+
     if (
       flippedCardsCounter === 2 &&
       idOfFlippedCards[0] !== idOfFlippedCards[1]
@@ -44,6 +54,7 @@ const CardList = ({
       flippedCardsCounter === 2 &&
       idOfFlippedCards[0] === idOfFlippedCards[1]
     ) {
+      setCounterOfMatches(counterOfMatches + 1);
       const listAfterFlip = cards.map((element: any) => {
         if (
           element.iconId === idOfFlippedCards[0] ||
@@ -62,7 +73,7 @@ const CardList = ({
 
       return () => clearTimeout(timer);
     }
-  }, [flippedCardsCounter, classOfGrid]);
+  }, [cards]);
 
   const toggleClass = (id: string) => {
     if (flippedCardsCounter < 2) {
