@@ -1,6 +1,7 @@
 import React from "react";
 import { render, fireEvent, waitFor } from "@testing-library/react";
 import CardList from "./card-list.component";
+import { BrowserRouter } from "react-router-dom";
 
 describe("CardList Component", () => {
   const MOCKED_GRID_CLASS = "grid-container4";
@@ -39,10 +40,12 @@ describe("CardList Component", () => {
 
   beforeEach(() => {
     wrapper = render(
-      <CardList
-        cardsAfterPick={MOCKED_CARDS_LIST}
-        classOfGrid={MOCKED_GRID_CLASS}
-      />
+      <BrowserRouter>
+        <CardList
+          cardsAfterPick={MOCKED_CARDS_LIST}
+          classOfGrid={MOCKED_GRID_CLASS}
+        />
+      </BrowserRouter>
     );
   });
 

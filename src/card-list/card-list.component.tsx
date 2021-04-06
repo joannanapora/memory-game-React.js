@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "../card/card.component";
 import "../card-list/card-list.scss";
 import { ICard } from "../interfaces/card.interface";
-import { useHistory } from "react-router-dom";
+import WinnerScreen from "../winner-screen/winner-screen.component";
 
 const TIME_FOR_PEEK = 800;
 
@@ -15,24 +15,19 @@ const CardList = ({
 }) => {
   const [cards, setCards] = useState<ICard[]>(cardsAfterPick);
   const [flippedCards, setflippedCards] = useState<ICard[]>([]);
-
-  let history = useHistory();
-
-  const RedirectToWinnerPage = useCallback(() => {
-    history.push("/winner");
-  }, [history]);
+  const [isWinner, setIsWinner] = useState<boolean>(false);
 
   useEffect(() => {
     const checkIfWin = cards.find((card: ICard) => !card.isMatched);
     if (!checkIfWin) {
-      RedirectToWinnerPage();
+      setIsWinner(true);
     }
 
     if (flippedCards.length === 2) {
-      const isMatched = flippedCards[0].iconId === flippedCards[1].iconId;
+      const areCardMatching = flippedCards[0].iconId === flippedCards[1].iconId;
       const listAfterMatch = cards.map((card: ICard) => {
         if (card.id === flippedCards[0].id || card.id === flippedCards[1].id) {
-          return isMatched
+          return areCardMatching
             ? { ...card, isMatched: true }
             : { ...card, isFlipped: false };
         }
@@ -46,7 +41,7 @@ const CardList = ({
 
       return () => clearTimeout(timer);
     }
-  }, [cards, flippedCards, RedirectToWinnerPage]);
+  }, [cards, flippedCards, isWinner]);
 
   const toggleClass = (id: string) => {
     if (flippedCards.length < 2) {
@@ -61,7 +56,9 @@ const CardList = ({
     }
   };
 
-  return (
+  return isWinner ? (
+    <WinnerScreen />
+  ) : (
     <div className={classOfGrid}>
       {cards?.map((card: ICard, i) => {
         return (
