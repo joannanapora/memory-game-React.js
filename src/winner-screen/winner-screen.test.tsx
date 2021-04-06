@@ -1,6 +1,6 @@
 import React from "react";
 import { render, RenderResult } from "@testing-library/react";
-import App from "./App";
+import WinnerScreen from "./winner-screen.component";
 import { BrowserRouter } from "react-router-dom";
 
 let wrapper: RenderResult;
@@ -8,13 +8,13 @@ let wrapper: RenderResult;
 beforeEach(() => {
   wrapper = render(
     <BrowserRouter>
-      <App />
+      <WinnerScreen />
     </BrowserRouter>
   );
 });
 
-describe("App Component", () => {
-  test("renders App correctly", () => {
-    wrapper.getByTestId("App");
+describe("Winner Screen Component", () => {
+  test("renders Winner Screen  correctly", () => {
+    wrapper.getByTestId("winner-screen");
   });
 });

@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Card from "../card/card.component";
 import "../card-list/card-list.scss";
 import { ICard } from "../interfaces/card.interface";
+import { useHistory } from "react-router-dom";
 
 const TIME_FOR_PEEK = 800;
 
@@ -13,67 +14,46 @@ const CardList = ({
   cardsAfterPick: ICard[];
 }) => {
   const [cards, setCards] = useState<ICard[]>(cardsAfterPick);
-  const [flippedCardsCounter, setFlippedCardsCounter] = useState<number>(0);
-  const [idOfFlippedCards, setidOfFlippedCards] = useState<number[]>([]);
+  const [flippedCards, setflippedCards] = useState<ICard[]>([]);
+
+  let history = useHistory();
+
+  const RedirectToWinnerPage = useCallback(() => {
+    history.push("/winner");
+  }, [history]);
 
   useEffect(() => {
-    if (cardsAfterPick.length !== cards.length) {
-      setCards(cardsAfterPick);
+    const checkIfWin = cards.find((card: ICard) => !card.isMatched);
+    if (!checkIfWin) {
+      RedirectToWinnerPage();
     }
-    if (
-      flippedCardsCounter === 2 &&
-      idOfFlippedCards[0] !== idOfFlippedCards[1]
-    ) {
-      const listAfterFlip = cards.map((element: any) => {
-        if (element.isMatched) {
-          return { ...element, isFlipped: true };
+
+    if (flippedCards.length === 2) {
+      const isMatched = flippedCards[0].iconId === flippedCards[1].iconId;
+      const listAfterMatch = cards.map((card: ICard) => {
+        if (card.id === flippedCards[0].id || card.id === flippedCards[1].id) {
+          return isMatched
+            ? { ...card, isMatched: true }
+            : { ...card, isFlipped: false };
         }
-        return { ...element, isFlipped: false };
+        return card;
       });
 
       const timer = setTimeout(() => {
-        setCards(listAfterFlip);
-        setFlippedCardsCounter(0);
-        setidOfFlippedCards([]);
+        setCards(listAfterMatch);
+        setflippedCards([]);
       }, TIME_FOR_PEEK);
 
       return () => clearTimeout(timer);
     }
-
-    if (
-      flippedCardsCounter === 2 &&
-      idOfFlippedCards[0] === idOfFlippedCards[1]
-    ) {
-      const listAfterFlip = cards.map((element: any) => {
-        if (
-          element.iconId === idOfFlippedCards[0] ||
-          element.iconId === idOfFlippedCards[1]
-        ) {
-          return { ...element, isFlipped: true, isMatched: true };
-        }
-        return element;
-      });
-
-      const timer = setTimeout(() => {
-        setCards(listAfterFlip);
-        setFlippedCardsCounter(0);
-        setidOfFlippedCards([]);
-      }, TIME_FOR_PEEK);
-
-      return () => clearTimeout(timer);
-    }
-  }, [flippedCardsCounter, classOfGrid]);
+  }, [cards, flippedCards, RedirectToWinnerPage]);
 
   const toggleClass = (id: string) => {
-    if (flippedCardsCounter < 2) {
+    if (flippedCards.length < 2) {
       const listAfterClick = cards.map((element: any) => {
-        if (id === element.id) {
-          setFlippedCardsCounter(flippedCardsCounter + 1);
-          setidOfFlippedCards([...idOfFlippedCards, element.iconId]);
+        if (id === element.id && element.id !== flippedCards[0]?.id) {
+          setflippedCards([...flippedCards, element]);
           return { ...element, isFlipped: true };
-        }
-        if (id === element.id && element.iconId === idOfFlippedCards) {
-          return { ...element, isMatched: true };
         }
         return element;
       });

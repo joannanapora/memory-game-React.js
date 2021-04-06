@@ -1,0 +1,39 @@
+.winner-screen-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  margin: 2vh;
+  width: 100%;
+  font-size: 10vh;
+}
+.winnerscreen-button-container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-top: 10vh;
+}
+
+.winnerscreen-button {
+  padding: 5vh 5vw;
+  font-family: "Lato", sans-serif;
+  font-size: 4vw;
+  box-shadow: 0px 10px 30px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 3%;
+  border: 4px #3c4757;
+  background-color: #3c4757;
+  background-repeat: round;
+  cursor: pointer;
+  background-size: cover;
+  min-width: 40vw;
+  margin: 7vh;
+}
+
+.winnerscreen-button:focus {
+  outline: none;
+}
