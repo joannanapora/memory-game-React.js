@@ -1,6 +1,7 @@
 import React from "react";
 import { render, fireEvent, waitFor } from "@testing-library/react";
 import CardList from "./card-list.component";
+import { BrowserRouter } from "react-router-dom";
 
 describe("CardList Component", () => {
   const MOCKED_GRID_CLASS = "grid-container4";
@@ -39,10 +40,12 @@ describe("CardList Component", () => {
 
   beforeEach(() => {
     wrapper = render(
-      <CardList
-        cardsAfterPick={MOCKED_CARDS_LIST}
-        classOfGrid={MOCKED_GRID_CLASS}
-      />
+      <BrowserRouter>
+        <CardList
+          cardsAfterPick={MOCKED_CARDS_LIST}
+          classOfGrid={MOCKED_GRID_CLASS}
+        />
+      </BrowserRouter>
     );
   });
 
@@ -106,7 +109,7 @@ describe("CardList Component", () => {
     ).toEqual(1);
   });
 
-  test("all cards should be hidden 0.8 sec after  ", async () => {
+  test("all cards should be hidden 0.3 sec after  ", async () => {
     const listOfCards = wrapper.getAllByTestId("Memory");
     expect(
       wrapper.container.getElementsByClassName("card-inner-flipped").length
@@ -121,5 +124,10 @@ describe("CardList Component", () => {
         wrapper.container.getElementsByClassName("card-inner-flipped").length
       ).toEqual(0)
     );
+  });
+
+  test("should display RESTART and EXIT buttons", () => {
+    wrapper.getByText("RESTART");
+    wrapper.getByText("EXIT");
   });
 });
