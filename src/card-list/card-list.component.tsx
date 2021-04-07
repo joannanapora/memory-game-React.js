@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Card from "../card/card.component";
 import "../card-list/card-list.scss";
 import { ICard } from "../interfaces/card.interface";
 import WinnerScreen from "../winner-screen/winner-screen.component";
+import ResetModal from "../modal/modal-restart.component";
+import ExitModal from "../modal/modal-exit.component";
+import { shuffleCards } from "../shuffle-cards.fn";
 
 const TIME_FOR_PEEK = 800;
 
@@ -16,6 +19,24 @@ const CardList = ({
   const [cards, setCards] = useState<ICard[]>(cardsAfterPick);
   const [flippedCards, setflippedCards] = useState<ICard[]>([]);
   const [isWinner, setIsWinner] = useState<boolean>(false);
+  const [reset, setReset] = useState<boolean>(false);
+  const [exit, setExit] = useState<boolean>(false);
+
+  function openResetModal() {
+    setReset(true);
+  }
+
+  function openExitModal() {
+    setExit(true);
+  }
+
+  function closeResetModal() {
+    setReset(false);
+  }
+
+  function closeExitModal() {
+    setExit(false);
+  }
 
   useEffect(() => {
     const checkIfWin = cards.find((card: ICard) => !card.isMatched);
@@ -43,6 +64,20 @@ const CardList = ({
     }
   }, [cards, flippedCards, isWinner]);
 
+  const handleNoReset = () => {
+    setReset(false);
+  };
+  const handleReset = () => {
+    setReset(false);
+    setCards(shuffleCards(cardsAfterPick));
+  };
+  const handleNoExit = () => {
+    setExit(false);
+  };
+  const handleExit = () => {
+    window.location.reload();
+  };
+
   const toggleClass = (id: string) => {
     if (flippedCards.length < 2) {
       const listAfterClick = cards.map((element: any) => {
@@ -59,19 +94,48 @@ const CardList = ({
   return isWinner ? (
     <WinnerScreen />
   ) : (
-    <div className={classOfGrid}>
-      {cards?.map((card: ICard, i) => {
-        return (
-          <Card
-            isMatched={card.isMatched}
-            icon={card.icon}
-            isFlipped={card.isFlipped}
-            toggleClass={toggleClass}
-            key={i}
-            cardID={card.id}
+    <div className="memory-game-container">
+      <div className="quit-reset-container">
+        <div className="timer">00:00:00s</div>
+        <button onClick={openResetModal} className="game-button">
+          RESTART
+        </button>
+        <button onClick={openExitModal} className="game-button">
+          EXIT
+        </button>
+      </div>
+      <div className="cards">
+        <div className={classOfGrid}>
+          {cards?.map((card: ICard, i) => {
+            return (
+              <Card
+                isMatched={card.isMatched}
+                icon={card.icon}
+                isFlipped={card.isFlipped}
+                toggleClass={toggleClass}
+                key={i}
+                cardID={card.id}
+              />
+            );
+          })}
+        </div>
+        {reset && (
+          <ResetModal
+            handleNoReset={handleNoReset}
+            handleReset={handleReset}
+            modalIsOpen={reset}
+            closeModal={closeResetModal}
           />
-        );
-      })}
+        )}
+        {exit && (
+          <ExitModal
+            handleNoExit={handleNoExit}
+            handleExit={handleExit}
+            modalIsOpen={exit}
+            closeModal={closeExitModal}
+          />
+        )}
+      </div>
     </div>
   );
 };

@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./memory-menu-styles.scss";
 import { CardsData } from "../card-list/cards-data";
 import { v4 as uuid } from "uuid";
 import CardList from "../card-list/card-list.component";
 import { ICard } from "../interfaces/card.interface";
+import { shuffleCards } from "../shuffle-cards.fn";
 
 enum Sizes {
   SMALL = "4",
@@ -21,23 +22,6 @@ const MemoryMenu = () => {
   const [gridClassName, setGridClassName] = useState<string>("grid-container4");
   const [shuffledCards, setShuffledCards] = useState<ICard[]>([]);
   const [gameMode, setGameMode] = useState<boolean>(false);
-
-  useEffect(() => {}, [gameMode]);
-
-  const shufflePreparedCards = (cardsBeforeShuffling: ICard[]) => {
-    let i = cardsBeforeShuffling.length;
-    let j = 0;
-    let temp;
-
-    while (i--) {
-      j = Math.floor(Math.random() * i + 1);
-      temp = cardsBeforeShuffling[i];
-      cardsBeforeShuffling[i] = cardsBeforeShuffling[j];
-      cardsBeforeShuffling[j] = temp;
-    }
-
-    setShuffledCards(cardsBeforeShuffling);
-  };
 
   const prepareSetOfCards = (cardPairs: number) => {
     let listOfCards: ICard[] = [];
@@ -59,7 +43,8 @@ const MemoryMenu = () => {
         counter++;
       }
     }
-    shufflePreparedCards(listOfCards);
+
+    setShuffledCards(shuffleCards(listOfCards));
   };
 
   const onSizeChange = (id: string) => {
@@ -82,16 +67,7 @@ const MemoryMenu = () => {
   };
 
   return gameMode ? (
-    <div className="memory-game-container">
-      <div className="quit-reset-container">
-        <div className="timer">00:00:00s</div>
-        <button className="game-button">RESTART</button>
-        <button className="game-button">EXIT</button>
-      </div>
-      <div className="cards">
-        <CardList cardsAfterPick={shuffledCards} classOfGrid={gridClassName} />
-      </div>
-    </div>
+    <CardList cardsAfterPick={shuffledCards} classOfGrid={gridClassName} />
   ) : (
     <div className="memory-menu-container">
       <h1 className="header">Memory Game</h1>

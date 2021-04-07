@@ -109,7 +109,7 @@ describe("CardList Component", () => {
     ).toEqual(1);
   });
 
-  test("all cards should be hidden 0.8 sec after  ", async () => {
+  test("all cards should be hidden 0.3 sec after  ", async () => {
     const listOfCards = wrapper.getAllByTestId("Memory");
     expect(
       wrapper.container.getElementsByClassName("card-inner-flipped").length
@@ -124,5 +124,10 @@ describe("CardList Component", () => {
         wrapper.container.getElementsByClassName("card-inner-flipped").length
       ).toEqual(0)
     );
+  });
+
+  test("should display RESTART and EXIT buttons", () => {
+    wrapper.getByText("RESTART");
+    wrapper.getByText("EXIT");
   });
 });
