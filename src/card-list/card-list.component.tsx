@@ -96,7 +96,7 @@ const CardList = ({
   ) : (
     <div className="memory-game-container">
       <div className="quit-reset-container">
-        <div className="timer">00:00:00s</div>
+        {/* <div className="timer">00:00:00s</div> */}
         <button onClick={openResetModal} className="game-button">
           RESTART
         </button>
