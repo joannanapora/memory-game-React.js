@@ -1,128 +1,15 @@
-export const CardsData = [
-  {
-    id: 0,
-    isFlipped: false,
-    icon: "Icon0",
-    iconId: 0,
-    isMatched: false,
-  },
-  {
-    id: 1,
-    isFlipped: false,
-    icon: "Icon1",
-    iconId: 1,
-    isMatched: false,
-  },
-  {
-    id: 2,
-    isFlipped: false,
-    icon: "Icon2",
-    iconId: 2,
-    isMatched: false,
-  },
-  {
-    id: 3,
-    isFlipped: false,
-    icon: "Icon3",
-    iconId: 3,
-    isMatched: false,
-  },
-  {
-    id: 4,
-    isFlipped: false,
-    icon: "Icon4",
-    iconId: 4,
-    isMatched: false,
-  },
-  {
-    id: 5,
-    isFlipped: false,
-    icon: "Icon5",
-    iconId: 5,
-    isMatched: false,
-  },
-  {
-    id: 6,
-    isFlipped: false,
-    icon: "Icon6",
-    iconId: 6,
-    isMatched: false,
-  },
-  {
-    id: 7,
-    isFlipped: false,
-    icon: "Icon7",
-    iconId: 7,
-    isMatched: false,
-  },
-  {
-    id: 8,
-    isFlipped: false,
-    icon: "Icon8",
-    iconId: 8,
-    isMatched: false,
-  },
-  {
-    id: 9,
-    isFlipped: false,
-    icon: "Icon9",
-    iconId: 9,
-    isMatched: false,
-  },
-  {
-    id: 10,
-    isFlipped: false,
-    icon: "Icon10",
-    iconId: 10,
-    isMatched: false,
-  },
-  {
-    id: 11,
-    isFlipped: false,
-    icon: "Icon11",
-    iconId: 11,
-    isMatched: false,
-  },
-  {
-    id: 12,
-    isFlipped: false,
-    icon: "Icon12",
-    iconId: 12,
-    isMatched: false,
-  },
-  {
-    id: 13,
-    isFlipped: false,
-    icon: "Icon13",
-    iconId: 13,
-    isMatched: false,
-  },
-  {
-    id: 14,
-    isFlipped: false,
-    icon: "Icon14",
-    iconId: 14,
-    isMatched: false,
-  },
-  {
-    id: 15,
-    isFlipped: false,
-    icon: "Icon15",
-    iconId: 15,
-    isMatched: false,
-  },
-  {
-    id: 16,
-    isFlipped: false,
-    icon: "Icon16",
-    iconId: 16,
-    isMatched: false,
-  },
-  {
-    id: 17,
-    isFlipped: false,
-    icon: "Icon17",
-    iconId: 17,
-    isMatched: false,
-  },
-];
+import { ICard } from "../interfaces/card.interface";
+
+export const getCardsData = (): ICard[] => {
+  let cards = [];
+  for (let i = 0; i < 48; i++) {
+    cards.push({
+      id: `${i}`,
+      isFlipped: false,
+      icon: `Icon${i}`,
+      iconId: i,
+      isMatched: false,
+    });
+  }
+  return cards;
+};

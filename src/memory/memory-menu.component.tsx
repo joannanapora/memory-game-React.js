@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./memory-menu-styles.scss";
-import { CardsData } from "../card-list/cards-data";
+import { getCardsData } from "../card-list/cards-data";
 import { v4 as uuid } from "uuid";
 import { ICard } from "../interfaces/card.interface";
 import { shuffleCards } from "../shuffle-cards.fn";
@@ -28,8 +28,8 @@ const MemoryMenu = ({ history }: any) => {
     let counter = 0;
 
     while (counter !== i) {
-      j = Math.floor(Math.random() * CardsData.length);
-      const objectToAdd = { ...CardsData[j], id: uuid() };
+      j = Math.floor(Math.random() * getCardsData().length);
+      const objectToAdd = { ...getCardsData()[j], id: uuid() };
 
       const isInObject = listOfCards.find(
         (element) => element.iconId === objectToAdd.iconId

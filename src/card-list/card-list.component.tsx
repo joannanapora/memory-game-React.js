@@ -23,6 +23,14 @@ const CardList = () => {
   const [exit, setExit] = useState<boolean>(false);
 
   function openResetModal() {
+    const listPrepareToReset = cards.map((el) => {
+      if (el.isMatched) {
+        return el;
+      }
+      setflippedCards([]);
+      return { ...el, isFlipped: false };
+    });
+    setCards(listPrepareToReset);
     setReset(true);
   }
 
@@ -67,7 +75,7 @@ const CardList = () => {
   const handleNoReset = () => {
     setReset(false);
   };
-  const handleReset = () => {
+  const handleReset = async () => {
     setReset(false);
     setCards(shuffleCards(parsedCards));
   };
@@ -135,6 +143,9 @@ const CardList = () => {
             closeModal={closeExitModal}
           />
         )}
+      </div>
+      <div className="authorOfIcons">
+        Icons designed by Icongeek26 from Flaticon
       </div>
     </div>
   );
