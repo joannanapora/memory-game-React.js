@@ -1,5 +1,6 @@
-import React, { ReactElement } from "react";
+import React from "react";
 import "./card.component.scss";
+import CardIcon from "./card-icon.component";
 
 const Card = ({
   isFlipped,
@@ -11,7 +12,7 @@ const Card = ({
   toggleClass: (cardID: string) => void;
   isFlipped: boolean;
   cardID: string;
-  icon: ReactElement;
+  icon: string;
   isMatched: boolean;
 }) => {
   return isMatched ? (
@@ -26,7 +27,7 @@ const Card = ({
         <div className="card-face card-face-front"></div>
         <div className="card-face card-face-back">
           <div className="card-content">
-            {icon}
+            <CardIcon iconName={icon} />
             <div className="card-header"></div>
             <div className="card-body"></div>
           </div>

@@ -41,10 +41,7 @@ describe("CardList Component", () => {
   beforeEach(() => {
     wrapper = render(
       <BrowserRouter>
-        <CardList
-          cardsAfterPick={MOCKED_CARDS_LIST}
-          classOfGrid={MOCKED_GRID_CLASS}
-        />
+        <CardList />
       </BrowserRouter>
     );
   });

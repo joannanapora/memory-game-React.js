@@ -1,7 +1,3 @@
-* {
-  box-sizing: border-box;
-}
-
 .grid-container4 {
   display: grid;
   grid-template-columns: auto auto auto auto;
@@ -63,4 +59,22 @@
 
 .winnerscreen-button:focus {
   outline: none;
+}
+
+.quit-reset-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: flex-end;
+  height: 10%;
+}
+
+.game-button {
+  margin-right: 1.5vw;
+  padding: 3vh 3vw;
+  font-family: "Lato", sans-serif;
+  font-size: 3vw;
+  background-color: transparent;
+  cursor: pointer;
+  border: transparent;
 }

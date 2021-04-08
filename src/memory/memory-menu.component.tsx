@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import "./memory-menu-styles.scss";
 import { CardsData } from "../card-list/cards-data";
 import { v4 as uuid } from "uuid";
-import CardList from "../card-list/card-list.component";
 import { ICard } from "../interfaces/card.interface";
 import { shuffleCards } from "../shuffle-cards.fn";
-
+import { withRouter } from "react-router-dom";
 enum Sizes {
   SMALL = "4",
   MEDIUM = "6",
@@ -18,10 +17,9 @@ enum GridClasses {
   LARGE = "grid-container8",
 }
 
-const MemoryMenu = () => {
+const MemoryMenu = ({ history }: any) => {
   const [gridClassName, setGridClassName] = useState<string>("grid-container4");
   const [shuffledCards, setShuffledCards] = useState<ICard[]>([]);
-  const [gameMode, setGameMode] = useState<boolean>(false);
 
   const prepareSetOfCards = (cardPairs: number) => {
     let listOfCards: ICard[] = [];
@@ -63,14 +61,16 @@ const MemoryMenu = () => {
   };
 
   const startGame = () => {
-    setGameMode(true);
+    const state = {
+      cards: shuffledCards,
+      grid: gridClassName,
+    };
+    history.push("/game", JSON.stringify(state));
   };
 
-  return gameMode ? (
-    <CardList cardsAfterPick={shuffledCards} classOfGrid={gridClassName} />
-  ) : (
+  return (
     <div className="memory-menu-container">
-      <h1 className="header">Memory Game</h1>
+      <div className="main-header">Memory Game</div>
       <div className="size-button-container">
         <button
           className={
@@ -80,7 +80,7 @@ const MemoryMenu = () => {
           }
           onClick={() => onSizeChange(Sizes.SMALL)}
         >
-          4x4
+          EASY - 16
         </button>
         <button
           className={
@@ -90,7 +90,7 @@ const MemoryMenu = () => {
           }
           onClick={() => onSizeChange(Sizes.MEDIUM)}
         >
-          6x4
+          MEDIUM - 24
         </button>
         <button
           className={
@@ -100,13 +100,8 @@ const MemoryMenu = () => {
           }
           onClick={() => onSizeChange(Sizes.LARGE)}
         >
-          8x4
+          HARD - 32
         </button>
-      </div>
-      <div className="size-button-headers">
-        <h3>EASY - 16 CARDS</h3>
-        <h3>MEDIUM - 24 CARDS</h3>
-        <h3>HARD - 32 CARDS</h3>
       </div>
       <div className="start-button-container">
         <button
@@ -121,4 +116,4 @@ const MemoryMenu = () => {
   );
 };
 
-export default MemoryMenu;
+export default withRouter(MemoryMenu);

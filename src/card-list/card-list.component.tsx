@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "../card/card.component";
 import "../card-list/card-list.scss";
 import { ICard } from "../interfaces/card.interface";
@@ -6,17 +6,17 @@ import WinnerScreen from "../winner-screen/winner-screen.component";
 import ResetModal from "../modal/modal-restart.component";
 import ExitModal from "../modal/modal-exit.component";
 import { shuffleCards } from "../shuffle-cards.fn";
+import { useHistory, useLocation, withRouter } from "react-router";
 
 const TIME_FOR_PEEK = 800;
 
-const CardList = ({
-  classOfGrid,
-  cardsAfterPick,
-}: {
-  classOfGrid: string;
-  cardsAfterPick: ICard[];
-}) => {
-  const [cards, setCards] = useState<ICard[]>(cardsAfterPick);
+const CardList = () => {
+  const location: any = useLocation();
+  const history: any = useHistory();
+  const parsedCards = JSON.parse(location.state).cards;
+  const parsedGrid = JSON.parse(location.state).grid;
+
+  const [cards, setCards] = useState<ICard[]>(parsedCards);
   const [flippedCards, setflippedCards] = useState<ICard[]>([]);
   const [isWinner, setIsWinner] = useState<boolean>(false);
   const [reset, setReset] = useState<boolean>(false);
@@ -69,13 +69,13 @@ const CardList = ({
   };
   const handleReset = () => {
     setReset(false);
-    setCards(shuffleCards(cardsAfterPick));
+    setCards(shuffleCards(parsedCards));
   };
   const handleNoExit = () => {
     setExit(false);
   };
   const handleExit = () => {
-    window.location.reload();
+    history.push("/");
   };
 
   const toggleClass = (id: string) => {
@@ -105,7 +105,7 @@ const CardList = ({
         </button>
       </div>
       <div className="cards">
-        <div className={classOfGrid}>
+        <div className={parsedGrid}>
           {cards?.map((card: ICard, i) => {
             return (
               <Card
@@ -140,4 +140,4 @@ const CardList = ({
   );
 };
 
-export default CardList;
+export default withRouter(CardList);
