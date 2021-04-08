@@ -1,4 +1,5 @@
 import React from "react";
+import "./card-icon.styles.scss";
 import { ReactComponent as Icon1 } from "../assets/001-arc de triomphe.svg";
 import { ReactComponent as Icon2 } from "../assets/004-big-ben.svg";
 import { ReactComponent as Icon3 } from "../assets/012-Colosseum.svg";
@@ -22,79 +23,79 @@ const CardIcon = ({ iconName }: { iconName: string }) => {
   let iconToReturn;
   switch (iconName) {
     case "Icon0":
-      iconToReturn = <Icon0 style={{ width: "100%", height: "100%" }} />;
+      iconToReturn = <Icon0 className="icon" />;
       break;
 
     case "Icon1":
-      iconToReturn = <Icon1 style={{ width: "100%", height: "100%" }} />;
+      iconToReturn = <Icon1 className="icon" />;
       break;
 
     case "Icon2":
-      iconToReturn = <Icon2 style={{ width: "100%", height: "100%" }} />;
+      iconToReturn = <Icon2 className="icon" />;
       break;
 
     case "Icon3":
-      iconToReturn = <Icon3 style={{ width: "100%", height: "100%" }} />;
+      iconToReturn = <Icon3 className="icon" />;
       break;
 
     case "Icon4":
-      iconToReturn = <Icon4 style={{ width: "100%", height: "100%" }} />;
+      iconToReturn = <Icon4 className="icon" />;
       break;
 
     case "Icon5":
-      iconToReturn = <Icon5 style={{ width: "100%", height: "100%" }} />;
+      iconToReturn = <Icon5 className="icon" />;
       break;
 
     case "Icon6":
-      iconToReturn = <Icon6 style={{ width: "100%", height: "100%" }} />;
+      iconToReturn = <Icon6 className="icon" />;
       break;
 
     case "Icon7":
-      iconToReturn = <Icon7 style={{ width: "100%", height: "100%" }} />;
+      iconToReturn = <Icon7 className="icon" />;
       break;
 
     case "Icon8":
-      iconToReturn = <Icon8 style={{ width: "100%", height: "100%" }} />;
+      iconToReturn = <Icon8 className="icon" />;
       break;
 
     case "Icon9":
-      iconToReturn = <Icon9 style={{ width: "100%", height: "100%" }} />;
+      iconToReturn = <Icon9 className="icon" />;
       break;
 
     case "Icon10":
-      iconToReturn = <Icon10 style={{ width: "100%", height: "100%" }} />;
+      iconToReturn = <Icon10 className="icon" />;
       break;
 
     case "Icon11":
-      iconToReturn = <Icon11 style={{ width: "100%", height: "100%" }} />;
+      iconToReturn = <Icon11 className="icon" />;
       break;
 
     case "Icon12":
-      iconToReturn = <Icon12 style={{ width: "100%", height: "100%" }} />;
+      iconToReturn = <Icon12 className="icon" />;
       break;
 
     case "Icon13":
-      iconToReturn = <Icon13 style={{ width: "100%", height: "100%" }} />;
+      iconToReturn = <Icon13 className="icon" />;
       break;
 
     case "Icon14":
-      iconToReturn = <Icon14 style={{ width: "100%", height: "100%" }} />;
+      iconToReturn = <Icon14 className="icon" />;
       break;
 
     case "Icon15":
-      iconToReturn = <Icon15 style={{ width: "100%", height: "100%" }} />;
+      iconToReturn = <Icon15 className="icon" />;
       break;
 
     case "Icon16":
-      iconToReturn = <Icon16 style={{ width: "100%", height: "100%" }} />;
+      iconToReturn = <Icon16 className="icon" />;
       break;
 
     case "Icon17":
-      iconToReturn = <Icon17 style={{ width: "100%", height: "100%" }} />;
+      iconToReturn = <Icon17 className="icon" />;
       break;
   }
 
-  return <div>{iconToReturn}</div>;
+  return <div className="icon">{iconToReturn}</div>;
 };
 
 export default CardIcon;

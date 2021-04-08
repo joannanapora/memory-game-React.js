@@ -17,6 +17,7 @@
   width: 100%;
   font-size: 10vh;
   justify-content: center;
+  margin-top: 10vh;
 }
 
 .cards {
@@ -41,7 +42,7 @@
   cursor: pointer;
   background-size: cover;
   color: white;
-  margin-top: 13vh;
+  margin-top: 10vh;
 }
 
 .size-button-disabled {
@@ -56,7 +57,7 @@
   cursor: pointer;
   background-size: cover;
   color: black;
-  margin-top: 13vh;
+  margin-top: 10vh;
 }
 
 .size-button:focus {
@@ -67,7 +68,6 @@
 }
 
 .start-button {
-  margin-top: 3vh;
   padding: 5vh 30vw;
   font-family: "Lato", sans-serif;
   font-size: 4vw;
@@ -79,7 +79,7 @@
   cursor: pointer;
   background-size: cover;
   color: white;
-  margin-top: 20vh;
+  margin-top: 10vh;
 }
 .start-button:disabled {
   color: black;
