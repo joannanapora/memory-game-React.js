@@ -5,10 +5,10 @@ import { Link } from "react-router-dom";
 const WinnerScreen = () => {
   return (
     <div data-testid="winner-screen" className="winner-screen-container">
-      <h1>Congratulations!</h1>
+      <div className="winner-header">Congratulations!</div>
       <div className="winnerscreen-button-container">
         <Link to="/">
-          <button className="winnerscreen-button">TRY AGAIN</button>
+          <div className="winnerscreen-button">TRY AGAIN</div>
         </Link>
       </div>
     </div>

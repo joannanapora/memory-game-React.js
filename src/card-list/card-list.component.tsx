@@ -100,7 +100,9 @@ const CardList = () => {
   };
 
   return isWinner ? (
-    <WinnerScreen />
+    <div>
+      <WinnerScreen />
+    </div>
   ) : (
     <div className="memory-game-container">
       <div className="quit-reset-container">
