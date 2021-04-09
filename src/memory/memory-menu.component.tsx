@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import "./memory-menu-styles.scss";
-import { getCardsData } from "../card-list/cards-data";
-import { v4 as uuid } from "uuid";
 import { ICard } from "../interfaces/card.interface";
-import { shuffleCards } from "../shuffle-cards.fn";
+import { shuffleCards } from "../functions/shuffle-cards.fn";
+import { prepareSetOfCards } from "../functions/select-cards.fn";
 import { withRouter } from "react-router-dom";
 enum Sizes {
   SMALL = "4",
@@ -21,42 +20,18 @@ const MemoryMenu = ({ history }: any) => {
   const [gridClassName, setGridClassName] = useState<string>("grid-container4");
   const [shuffledCards, setShuffledCards] = useState<ICard[]>([]);
 
-  const prepareSetOfCards = (cardPairs: number) => {
-    let listOfCards: ICard[] = [];
-    let i = cardPairs;
-    let j = 0;
-    let counter = 0;
-
-    while (counter !== i) {
-      j = Math.floor(Math.random() * getCardsData().length);
-      const objectToAdd = { ...getCardsData()[j], id: uuid() };
-
-      const isInObject = listOfCards.find(
-        (element) => element.iconId === objectToAdd.iconId
-      );
-
-      if (!isInObject) {
-        listOfCards.push(objectToAdd);
-        listOfCards.push({ ...objectToAdd, id: uuid() });
-        counter++;
-      }
-    }
-
-    setShuffledCards(shuffleCards(listOfCards));
-  };
-
   const onSizeChange = (id: string) => {
     if (id === Sizes.SMALL) {
       setGridClassName(GridClasses.SMALL);
-      prepareSetOfCards(8);
+      setShuffledCards(shuffleCards(prepareSetOfCards(8)));
     }
     if (id === Sizes.MEDIUM) {
       setGridClassName(GridClasses.MEDIUM);
-      prepareSetOfCards(12);
+      setShuffledCards(shuffleCards(prepareSetOfCards(12)));
     }
     if (id === Sizes.LARGE) {
       setGridClassName(GridClasses.LARGE);
-      prepareSetOfCards(16);
+      setShuffledCards(shuffleCards(prepareSetOfCards(16)));
     }
   };
 

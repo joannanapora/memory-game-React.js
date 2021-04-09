@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { Component, useState, useEffect } from "react";
 import Card from "../card/card.component";
 import "../card-list/card-list.scss";
 import { ICard } from "../interfaces/card.interface";
 import WinnerScreen from "../winner-screen/winner-screen.component";
 import ResetModal from "../modal/modal-restart.component";
 import ExitModal from "../modal/modal-exit.component";
-import { shuffleCards } from "../shuffle-cards.fn";
+import { shuffleCards } from "../functions/shuffle-cards.fn";
+import { prepareSetOfCards } from "../functions/select-cards.fn";
+import Timer from "../timer/timer.component";
+
 import { useHistory, useLocation, withRouter } from "react-router";
 
 const TIME_FOR_PEEK = 800;
@@ -21,6 +24,7 @@ const CardList = () => {
   const [isWinner, setIsWinner] = useState<boolean>(false);
   const [reset, setReset] = useState<boolean>(false);
   const [exit, setExit] = useState<boolean>(false);
+  const [resetTimer, setResetTimer] = useState<boolean>(false);
 
   function openResetModal() {
     const listPrepareToReset = cards.map((el) => {
@@ -40,6 +44,8 @@ const CardList = () => {
 
   function closeResetModal() {
     setReset(false);
+    setCards(shuffleCards(prepareSetOfCards(parsedCards.length / 2)));
+    setResetTimer(false);
   }
 
   function closeExitModal() {
@@ -70,14 +76,13 @@ const CardList = () => {
 
       return () => clearTimeout(timer);
     }
-  }, [cards, flippedCards, isWinner]);
+  }, [cards, flippedCards, isWinner, resetTimer]);
 
   const handleNoReset = () => {
     setReset(false);
   };
   const handleReset = async () => {
-    setReset(false);
-    setCards(shuffleCards(parsedCards));
+    closeResetModal();
   };
   const handleNoExit = () => {
     setExit(false);
@@ -87,6 +92,8 @@ const CardList = () => {
   };
 
   const toggleClass = (id: string) => {
+    setResetTimer(true);
+    setReset(false);
     if (flippedCards.length < 2) {
       const listAfterClick = cards.map((element: any) => {
         if (id === element.id && element.id !== flippedCards[0]?.id) {
@@ -99,57 +106,61 @@ const CardList = () => {
     }
   };
 
-  return isWinner ? (
-    <div>
-      <WinnerScreen />
-    </div>
-  ) : (
-    <div className="memory-game-container">
-      <div className="quit-reset-container">
-        {/* <div className="timer">00:00:00s</div> */}
-        <button onClick={openResetModal} className="game-button">
-          RESTART
-        </button>
-        <button onClick={openExitModal} className="game-button">
-          EXIT
-        </button>
+  return cards ? (
+    isWinner ? (
+      <div>
+        <WinnerScreen />
       </div>
-      <div className="cards">
-        <div className={parsedGrid}>
-          {cards?.map((card: ICard, i) => {
-            return (
-              <Card
-                isMatched={card.isMatched}
-                icon={card.icon}
-                isFlipped={card.isFlipped}
-                toggleClass={toggleClass}
-                key={i}
-                cardID={card.id}
-              />
-            );
-          })}
+    ) : (
+      <div className="memory-game-container">
+        <div className="quit-reset-container">
+          <div className="timer">{resetTimer ? <Timer /> : "0 m : 0 s"}</div>
+          <button onClick={openResetModal} className="game-button">
+            RESTART
+          </button>
+          <button onClick={openExitModal} className="game-button">
+            EXIT
+          </button>
         </div>
-        {reset && (
-          <ResetModal
-            handleNoReset={handleNoReset}
-            handleReset={handleReset}
-            modalIsOpen={reset}
-            closeModal={closeResetModal}
-          />
-        )}
-        {exit && (
-          <ExitModal
-            handleNoExit={handleNoExit}
-            handleExit={handleExit}
-            modalIsOpen={exit}
-            closeModal={closeExitModal}
-          />
-        )}
+        <div className="cards">
+          <div className={parsedGrid}>
+            {cards?.map((card: ICard, i) => {
+              return (
+                <Card
+                  isMatched={card.isMatched}
+                  icon={card.icon}
+                  isFlipped={card.isFlipped}
+                  toggleClass={toggleClass}
+                  key={i}
+                  cardID={card.id}
+                />
+              );
+            })}
+          </div>
+          {reset && (
+            <ResetModal
+              handleNoReset={handleNoReset}
+              handleReset={handleReset}
+              modalIsOpen={reset}
+              closeModal={closeResetModal}
+            />
+          )}
+          {exit && (
+            <ExitModal
+              handleNoExit={handleNoExit}
+              handleExit={handleExit}
+              modalIsOpen={exit}
+              closeModal={closeExitModal}
+            />
+          )}
+        </div>
+        <div className="authorOfIcons">
+          Icons designed by Icongeek26 from Flaticon
+        </div>
       </div>
-      <div className="authorOfIcons">
-        Icons designed by Icongeek26 from Flaticon
-      </div>
-    </div>
+    )
+  ) : (
+    <div>NO CARDS</div>
   );
 };
 
