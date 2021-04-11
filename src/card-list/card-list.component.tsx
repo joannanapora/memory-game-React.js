@@ -27,7 +27,7 @@ const CardList = () => {
   const [resetTimer, setResetTimer] = useState<boolean>(false);
   const [counter, setCounter] = useState<{ min: number; sec: number }>({
     min: 0,
-    sec: 1,
+    sec: 0,
   });
 
   function openResetModal() {
@@ -58,7 +58,6 @@ const CardList = () => {
   }
 
   useEffect(() => {
-    console.log("how many times");
     const checkIfWin = cards.find((card: ICard) => !card.isMatched);
     if (!checkIfWin) {
       setIsWinner(true);

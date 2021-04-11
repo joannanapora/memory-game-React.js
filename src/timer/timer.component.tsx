@@ -5,7 +5,6 @@ const Timer = ({ counter, setCounter }: any) => {
   let currentDate = useRef(new Date());
 
   useEffect(() => {
-    console.log("SET INTERVAL ZAWOLANY");
     let timer = setInterval(() => {
       const seconds = differenceInSeconds(new Date(), currentDate.current);
       const minutes = differenceInMinutes(new Date(), currentDate.current);
