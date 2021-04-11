@@ -1,11 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 
-const Timer = () => {
-  const [counter, setCounter] = useState<{ min: number; sec: number }>({
-    min: 0,
-    sec: 1,
-  });
-
+const Timer = ({ counter, setCounter }: any) => {
   useEffect(() => {
     let timer = setInterval(() => {
       if (counter.sec === 59) {
@@ -14,10 +9,9 @@ const Timer = () => {
     }, 1000);
 
     return () => {
-      localStorage.setItem("counter", JSON.stringify(counter));
       clearInterval(timer);
     };
-  }, [counter]);
+  });
 
   return (
     <span>
