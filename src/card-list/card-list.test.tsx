@@ -1,7 +1,7 @@
 import React from "react";
 import { render, fireEvent, waitFor } from "@testing-library/react";
 import CardList from "./card-list.component";
-import { BrowserRouter } from "react-router-dom";
+import { MemoryRouter } from "react-router-dom";
 
 describe("CardList Component", () => {
   const MOCKED_GRID_CLASS = "grid-container4";
@@ -9,28 +9,28 @@ describe("CardList Component", () => {
     {
       id: "u32asddagfs4324",
       isFlipped: false,
-      icon: <div />,
+      icon: "Icon7",
       iconId: 4,
       isMatched: false,
     },
     {
       id: "u3243bvgfdsfds24",
       isFlipped: false,
-      icon: <div />,
+      icon: "Icon6",
       iconId: 4,
       isMatched: false,
     },
     {
       id: "zz344gfdgfdgw324",
       isFlipped: false,
-      icon: <div />,
+      icon: "Icon8",
       iconId: 5,
       isMatched: false,
     },
     {
       id: "zz3443wewedgdgf24",
       isFlipped: false,
-      icon: <div />,
+      icon: "Icon12",
       iconId: 5,
       isMatched: false,
     },
@@ -40,9 +40,9 @@ describe("CardList Component", () => {
 
   beforeEach(() => {
     wrapper = render(
-      <BrowserRouter>
+      <MemoryRouter>
         <CardList />
-      </BrowserRouter>
+      </MemoryRouter>
     );
   });
 

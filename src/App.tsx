@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.scss";
-import { Switch, Route, Redirect, Link } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import MemoryMenu from "./memory/memory-menu.component";
 import CardList from "./card-list/card-list.component";
 const App = () => {

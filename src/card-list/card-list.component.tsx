@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "../card/card.component";
 import "../card-list/card-list.scss";
 import { ICard } from "../interfaces/card.interface";
@@ -25,6 +25,10 @@ const CardList = () => {
   const [reset, setReset] = useState<boolean>(false);
   const [exit, setExit] = useState<boolean>(false);
   const [resetTimer, setResetTimer] = useState<boolean>(false);
+  const [counter, setCounter] = useState<{ min: number; sec: number }>({
+    min: 0,
+    sec: 0,
+  });
 
   function openResetModal() {
     const listPrepareToReset = cards.map((el) => {
@@ -46,6 +50,7 @@ const CardList = () => {
     setReset(false);
     setCards(shuffleCards(prepareSetOfCards(parsedCards.length / 2)));
     setResetTimer(false);
+    setCounter({ min: 0, sec: 0 });
   }
 
   function closeExitModal() {
@@ -109,12 +114,18 @@ const CardList = () => {
   return cards ? (
     isWinner ? (
       <div>
-        <WinnerScreen />
+        <WinnerScreen minutes={counter.min} seconds={counter.sec} />
       </div>
     ) : (
       <div className="memory-game-container">
         <div className="quit-reset-container">
-          <div className="timer">{resetTimer ? <Timer /> : "0 m : 0 s"}</div>
+          <div className="timer">
+            {resetTimer ? (
+              <Timer counter={counter} setCounter={setCounter} />
+            ) : (
+              "0 m : 0 s"
+            )}
+          </div>
           <button onClick={openResetModal} className="game-button">
             RESTART
           </button>

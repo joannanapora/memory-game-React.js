@@ -1,23 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useRef } from "react";
+import { differenceInMinutes, differenceInSeconds, min } from "date-fns";
 
-const Timer = () => {
-  const [counter, setCounter] = useState<{ min: number; sec: number }>({
-    min: 0,
-    sec: 1,
-  });
+const Timer = ({ counter, setCounter }: any) => {
+  let currentDate = useRef(new Date());
 
   useEffect(() => {
     let timer = setInterval(() => {
-      if (counter.sec === 59) {
-        setCounter({ min: counter.min + 1, sec: 0 });
-      } else setCounter({ ...counter, sec: counter.sec + 1 });
+      const seconds = differenceInSeconds(new Date(), currentDate.current);
+      const minutes = differenceInMinutes(new Date(), currentDate.current);
+      setCounter({ min: minutes % 60, sec: seconds % 60 });
     }, 1000);
 
     return () => {
-      localStorage.setItem("counter", JSON.stringify(counter));
       clearInterval(timer);
     };
-  }, [counter]);
+  });
 
   return (
     <span>
@@ -26,4 +23,4 @@ const Timer = () => {
   );
 };
 
-export default Timer;
+export default React.memo(Timer);
