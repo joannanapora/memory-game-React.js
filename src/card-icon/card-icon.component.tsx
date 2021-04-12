@@ -245,7 +245,11 @@ const CardIcon = ({ iconName }: { iconName: string }) => {
       break;
   }
 
-  return <div className="icon">{iconToReturn}</div>;
+  return (
+    <div data-testid="icon" className="icon">
+      {iconToReturn}
+    </div>
+  );
 };
 
 export default CardIcon;

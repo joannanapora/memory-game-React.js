@@ -16,10 +16,8 @@ const TIME_FOR_PEEK = 800;
 const CardList = () => {
   const location: any = useLocation();
   const history: any = useHistory();
-  const parsedCards = JSON.parse(location.state).cards;
-  const parsedGrid = JSON.parse(location.state).grid;
 
-  const [cards, setCards] = useState<ICard[]>(parsedCards);
+  const [cards, setCards] = useState<ICard[]>(JSON.parse(location.state).cards);
   const [flippedCards, setflippedCards] = useState<ICard[]>([]);
   const [isWinner, setIsWinner] = useState<boolean>(false);
   const [reset, setReset] = useState<boolean>(false);
@@ -49,7 +47,11 @@ const CardList = () => {
 
   function closeResetModal() {
     setReset(false);
-    setCards(shuffleCards(prepareSetOfCards(parsedCards.length / 2)));
+    setCards(
+      shuffleCards(
+        prepareSetOfCards(JSON.parse(location.state).grid.length / 2)
+      )
+    );
     setResetTimer(false);
     setCounter({ min: 0, sec: 0 });
     setMoves(0);
@@ -124,7 +126,7 @@ const CardList = () => {
         />
       </div>
     ) : (
-      <div className="memory-game-container">
+      <div data-testid="memory-cards" className="memory-game-container">
         <div className="quit-reset-container">
           <div>
             {resetTimer ? (
@@ -142,7 +144,7 @@ const CardList = () => {
           </button>
         </div>
         <div className="cards">
-          <div className={parsedGrid}>
+          <div className={JSON.parse(location.state).grid}>
             {cards?.map((card: ICard, i) => {
               return (
                 <Card

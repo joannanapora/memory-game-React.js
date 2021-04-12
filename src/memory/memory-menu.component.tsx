@@ -3,22 +3,24 @@ import "./memory-menu-styles.scss";
 import { ICard } from "../interfaces/card.interface";
 import { shuffleCards } from "../functions/shuffle-cards.fn";
 import { prepareSetOfCards } from "../functions/select-cards.fn";
-import { withRouter } from "react-router-dom";
+import { useHistory, withRouter } from "react-router-dom";
 enum Sizes {
   SMALL = "4",
   MEDIUM = "6",
   LARGE = "8",
 }
 
-enum GridClasses {
+export enum GridClasses {
   SMALL = "grid-container4",
   MEDIUM = "grid-container6",
   LARGE = "grid-container8",
 }
 
-const MemoryMenu = ({ history }: any) => {
+const MemoryMenu = () => {
   const [gridClassName, setGridClassName] = useState<string>("grid-container4");
   const [shuffledCards, setShuffledCards] = useState<ICard[]>([]);
+
+  const history = useHistory();
 
   const onSizeChange = (id: string) => {
     if (id === Sizes.SMALL) {
@@ -91,4 +93,4 @@ const MemoryMenu = ({ history }: any) => {
   );
 };
 
-export default withRouter(MemoryMenu);
+export default MemoryMenu;
