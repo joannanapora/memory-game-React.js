@@ -18,7 +18,7 @@ const Timer = ({ counter, setCounter }: any) => {
 
   return (
     <span>
-      {counter.min} m : {counter.sec} s
+      time: {counter.min} m : {counter.sec} s
     </span>
   );
 };

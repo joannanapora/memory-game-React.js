@@ -5,9 +5,11 @@ import { Link } from "react-router-dom";
 const WinnerScreen = ({
   minutes,
   seconds,
+  moves,
 }: {
   minutes: number;
   seconds: number;
+  moves: number;
 }) => {
   return (
     <div data-testid="winner-screen" className="winner-screen-container">
@@ -16,6 +18,11 @@ const WinnerScreen = ({
         <br />
         Your time:
         <br /> {minutes} min and {seconds} sec!
+      </div>
+      <div className="winner-header">
+        <br />
+        Your moves:
+        <br /> {moves}
       </div>
       <div className="winnerscreen-button-container">
         <Link to="/">

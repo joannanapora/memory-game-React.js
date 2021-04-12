@@ -29,6 +29,7 @@ const CardList = () => {
     min: 0,
     sec: 0,
   });
+  const [moves, setMoves] = useState<number>(0);
 
   function openResetModal() {
     const listPrepareToReset = cards.map((el) => {
@@ -51,6 +52,7 @@ const CardList = () => {
     setCards(shuffleCards(prepareSetOfCards(parsedCards.length / 2)));
     setResetTimer(false);
     setCounter({ min: 0, sec: 0 });
+    setMoves(0);
   }
 
   function closeExitModal() {
@@ -97,6 +99,7 @@ const CardList = () => {
   };
 
   const toggleClass = (id: string) => {
+    setMoves(moves + 1);
     setResetTimer(true);
     setReset(false);
     if (flippedCards.length < 2) {
@@ -114,18 +117,23 @@ const CardList = () => {
   return cards ? (
     isWinner ? (
       <div>
-        <WinnerScreen minutes={counter.min} seconds={counter.sec} />
+        <WinnerScreen
+          minutes={counter.min}
+          seconds={counter.sec}
+          moves={moves}
+        />
       </div>
     ) : (
       <div className="memory-game-container">
         <div className="quit-reset-container">
-          <div className="timer">
+          <div>
             {resetTimer ? (
               <Timer counter={counter} setCounter={setCounter} />
             ) : (
-              "0 m : 0 s"
+              "time: 0 m : 0 s"
             )}
           </div>
+          <div>moves: {moves}</div>
           <button onClick={openResetModal} className="game-button">
             RESTART
           </button>
