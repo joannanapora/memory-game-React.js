@@ -10,6 +10,7 @@ import { prepareSetOfCards } from "../functions/select-cards.fn";
 import Timer from "../timer/timer.component";
 
 import { useHistory, useLocation, withRouter } from "react-router";
+import { parse } from "uuid";
 
 const TIME_FOR_PEEK = 800;
 
@@ -18,6 +19,7 @@ const CardList = () => {
   const history: any = useHistory();
 
   const parsedCards = JSON.parse(location.state).cards;
+  const parsedGrid = JSON.parse(location.state).grid;
 
   const [cards, setCards] = useState<ICard[]>(parsedCards);
   const [flippedCards, setflippedCards] = useState<ICard[]>([]);
@@ -49,11 +51,7 @@ const CardList = () => {
 
   const closeResetModal = () => {
     setReset(false);
-    setCards(
-      shuffleCards(
-        prepareSetOfCards((JSON.parse(location.state).grid.length + 1) / 2)
-      )
-    );
+    setCards(shuffleCards(prepareSetOfCards(parsedCards.length / 2)));
     setResetTimer(false);
     setMoves(0);
   };
