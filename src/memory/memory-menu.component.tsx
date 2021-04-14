@@ -35,10 +35,29 @@ const MemoryMenu = ({ history }: any) => {
     }
   };
 
+<<<<<<< Updated upstream
+=======
+  // const onCategoryChange = (name: string) => {
+  //   if (name === "Architecture") {
+  //     setCategory("architecture");
+  //   }
+  //   if (name === "Wildlife") {
+  //     setCategory("wildlife");
+  //   }
+  //   if (name === "Food") {
+  //     setCategory("food");
+  //   }
+  // };
+
+>>>>>>> Stashed changes
   const startGame = () => {
     const state = {
       cards: shuffledCards,
       grid: gridClassName,
+<<<<<<< Updated upstream
+=======
+      // category: category,
+>>>>>>> Stashed changes
     };
     history.push("/game", JSON.stringify(state));
   };
@@ -46,9 +65,44 @@ const MemoryMenu = ({ history }: any) => {
   return (
     <div className="memory-menu-container">
       <div className="main-header">Memory Game</div>
+      {/* <div className="size-button-container">
+        <button
+          className={
+<<<<<<< Updated upstream
+=======
+            category === "Wildlife" || category === "Food"
+              ? "size-button-disabled"
+              : "size-button"
+          }
+          onClick={() => onCategoryChange("Architecture")}
+        >
+          ARCHITECTURE
+        </button>
+        <button
+          className={
+            category === "Architecture" || category === "Food"
+              ? "size-button-disabled"
+              : "size-button"
+          }
+          onClick={() => onCategoryChange("Wildlife")}
+        >
+          WILDLIFE
+        </button>
+        <button
+          className={
+            category === "Architecture" || category === "Wildlife"
+              ? "size-button-disabled"
+              : "size-button"
+          }
+          onClick={() => onCategoryChange("Food")}
+        >
+          FOOD
+        </button>
+      </div> */}
       <div className="size-button-container">
         <button
           className={
+>>>>>>> Stashed changes
             shuffledCards.length === 24 || shuffledCards.length === 32
               ? "size-button-disabled"
               : "size-button"

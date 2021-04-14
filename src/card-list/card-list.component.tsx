@@ -29,6 +29,10 @@ const CardList = () => {
     min: 0,
     sec: 0,
   });
+<<<<<<< Updated upstream
+=======
+  // const [moves, setMoves] = useState<number>(0);
+>>>>>>> Stashed changes
 
   function openResetModal() {
     const listPrepareToReset = cards.map((el) => {
@@ -51,6 +55,10 @@ const CardList = () => {
     setCards(shuffleCards(prepareSetOfCards(parsedCards.length / 2)));
     setResetTimer(false);
     setCounter({ min: 0, sec: 0 });
+<<<<<<< Updated upstream
+=======
+    // setMoves(0);
+>>>>>>> Stashed changes
   }
 
   function closeExitModal() {
@@ -97,6 +105,10 @@ const CardList = () => {
   };
 
   const toggleClass = (id: string) => {
+<<<<<<< Updated upstream
+=======
+    // setMoves(moves + 1);
+>>>>>>> Stashed changes
     setResetTimer(true);
     setReset(false);
     if (flippedCards.length < 2) {
@@ -114,7 +126,15 @@ const CardList = () => {
   return cards ? (
     isWinner ? (
       <div>
+<<<<<<< Updated upstream
         <WinnerScreen minutes={counter.min} seconds={counter.sec} />
+=======
+        <WinnerScreen
+          minutes={counter.min}
+          seconds={counter.sec}
+          // moves={moves}
+        />
+>>>>>>> Stashed changes
       </div>
     ) : (
       <div className="memory-game-container">
@@ -126,6 +146,10 @@ const CardList = () => {
               "0 m : 0 s"
             )}
           </div>
+<<<<<<< Updated upstream
+=======
+          {/* <div>moves: {moves}</div> */}
+>>>>>>> Stashed changes
           <button onClick={openResetModal} className="game-button">
             RESTART
           </button>

@@ -8,7 +8,7 @@ let wrapper: RenderResult;
 beforeEach(() => {
   wrapper = render(
     <BrowserRouter>
-      <WinnerScreen />
+      <WinnerScreen minutes={0} seconds={0} />
     </BrowserRouter>
   );
 });
