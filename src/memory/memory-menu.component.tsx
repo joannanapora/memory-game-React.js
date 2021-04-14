@@ -3,25 +3,22 @@ import "./memory-menu-styles.scss";
 import { ICard } from "../interfaces/card.interface";
 import { shuffleCards } from "../functions/shuffle-cards.fn";
 import { prepareSetOfCards } from "../functions/select-cards.fn";
-import { useHistory } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 enum Sizes {
   SMALL = "4",
   MEDIUM = "6",
   LARGE = "8",
 }
 
-export enum GridClasses {
+enum GridClasses {
   SMALL = "grid-container4",
   MEDIUM = "grid-container6",
   LARGE = "grid-container8",
 }
 
-const MemoryMenu = () => {
+const MemoryMenu = ({ history }: any) => {
   const [gridClassName, setGridClassName] = useState<string>("grid-container4");
   const [shuffledCards, setShuffledCards] = useState<ICard[]>([]);
-  const [category, setCategory] = useState<string>("Architecture");
-
-  const history = useHistory();
 
   const onSizeChange = (id: string) => {
     if (id === Sizes.SMALL) {
@@ -38,23 +35,10 @@ const MemoryMenu = () => {
     }
   };
 
-  const onCategoryChange = (name: string) => {
-    if (name === "Architecture") {
-      setCategory("architecture");
-    }
-    if (name === "Wildlife") {
-      setCategory("wildlife");
-    }
-    if (name === "Food") {
-      setCategory("food");
-    }
-  };
-
   const startGame = () => {
     const state = {
       cards: shuffledCards,
       grid: gridClassName,
-      category: category,
     };
     history.push("/game", JSON.stringify(state));
   };
@@ -62,38 +46,6 @@ const MemoryMenu = () => {
   return (
     <div className="memory-menu-container">
       <div className="main-header">Memory Game</div>
-      <div className="size-button-container">
-        <button
-          className={
-            category === "Wildlife" || category === "Food"
-              ? "size-button-disabled"
-              : "size-button"
-          }
-          onClick={() => onCategoryChange("Architecture")}
-        >
-          ARCHITECTURE
-        </button>
-        <button
-          className={
-            category === "Architecture" || category === "Food"
-              ? "size-button-disabled"
-              : "size-button"
-          }
-          onClick={() => onCategoryChange("Wildlife")}
-        >
-          WILDLIFE
-        </button>
-        <button
-          className={
-            category === "Architecture" || category === "Wildlife"
-              ? "size-button-disabled"
-              : "size-button"
-          }
-          onClick={() => onCategoryChange("Food")}
-        >
-          FOOD
-        </button>
-      </div>
       <div className="size-button-container">
         <button
           className={
@@ -139,4 +91,4 @@ const MemoryMenu = () => {
   );
 };
 
-export default MemoryMenu;
+export default withRouter(MemoryMenu);

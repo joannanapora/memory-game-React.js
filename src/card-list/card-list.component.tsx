@@ -17,7 +17,9 @@ const CardList = () => {
   const location: any = useLocation();
   const history: any = useHistory();
 
-  const [cards, setCards] = useState<ICard[]>(JSON.parse(location.state).cards);
+  const parsedCards = JSON.parse(location.state).cards;
+
+  const [cards, setCards] = useState<ICard[]>(parsedCards);
   const [flippedCards, setflippedCards] = useState<ICard[]>([]);
   const [isWinner, setIsWinner] = useState<boolean>(false);
   const [reset, setReset] = useState<boolean>(false);
@@ -29,7 +31,7 @@ const CardList = () => {
   });
   const [moves, setMoves] = useState<number>(0);
 
-  function openResetModal() {
+  const openResetModal = () => {
     const listPrepareToReset = cards.map((el) => {
       if (el.isMatched) {
         return el;
@@ -39,27 +41,26 @@ const CardList = () => {
     });
     setCards(listPrepareToReset);
     setReset(true);
-  }
+  };
 
-  function openExitModal() {
+  const openExitModal = () => {
     setExit(true);
-  }
+  };
 
-  function closeResetModal() {
+  const closeResetModal = () => {
     setReset(false);
     setCards(
       shuffleCards(
-        prepareSetOfCards(JSON.parse(location.state).grid.length / 2)
+        prepareSetOfCards((JSON.parse(location.state).grid.length + 1) / 2)
       )
     );
     setResetTimer(false);
-    setCounter({ min: 0, sec: 0 });
     setMoves(0);
-  }
+  };
 
-  function closeExitModal() {
+  const closeExitModal = () => {
     setExit(false);
-  }
+  };
 
   useEffect(() => {
     const checkIfWin = cards.find((card: ICard) => !card.isMatched);
@@ -101,13 +102,13 @@ const CardList = () => {
   };
 
   const toggleClass = (id: string) => {
-    setMoves(moves + 1);
     setResetTimer(true);
     setReset(false);
     if (flippedCards.length < 2) {
       const listAfterClick = cards.map((element: any) => {
         if (id === element.id && element.id !== flippedCards[0]?.id) {
           setflippedCards([...flippedCards, element]);
+          setMoves(moves + 1);
           return { ...element, isFlipped: true };
         }
         return element;
