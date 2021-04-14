@@ -10,7 +10,6 @@ import { prepareSetOfCards } from "../functions/select-cards.fn";
 import Timer from "../timer/timer.component";
 
 import { useHistory, useLocation, withRouter } from "react-router";
-import { parse } from "uuid";
 
 const TIME_FOR_PEEK = 800;
 
@@ -143,7 +142,7 @@ const CardList = () => {
           </button>
         </div>
         <div className="cards">
-          <div className={JSON.parse(location.state).grid}>
+          <div className={parsedGrid}>
             {cards?.map((card: ICard, i) => {
               return (
                 <Card
