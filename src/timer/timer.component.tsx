@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { differenceInMinutes, differenceInSeconds, min } from "date-fns";
+import { differenceInMinutes, differenceInSeconds } from "date-fns";
 
 const Timer = ({ counter, setCounter }: any) => {
   let currentDate = useRef(new Date());
@@ -17,7 +17,7 @@ const Timer = ({ counter, setCounter }: any) => {
   });
 
   return (
-    <span>
+    <span data-testid="timer">
       time: {counter.min} m : {counter.sec} s
     </span>
   );
