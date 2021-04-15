@@ -1,7 +1,6 @@
-import React, { ReactElement } from "react";
-import { render, fireEvent, RenderResult } from "@testing-library/react";
+import React from "react";
+import { render, RenderResult } from "@testing-library/react";
 import Card from "./card.component";
-import CardIcon from "./card-icon.component";
 
 const MOCK_FLIPPED = false;
 const TOGGLE_CLASS = jest.fn();

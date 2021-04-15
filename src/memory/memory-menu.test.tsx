@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import {
   fireEvent,
   render,
@@ -6,50 +6,52 @@ import {
   RenderResult,
 } from "@testing-library/react";
 import MemoryMenu from "./memory-menu.component";
-import { MemoryRouter } from "react-router-dom";
-import userEvent from "@testing-library/user-event";
+import { MemoryRouter, Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
-import { Router } from "react-router-dom";
 
-import "@testing-library/jest-dom/extend-expect";
+const history = createMemoryHistory();
+const historyPushSpy = jest.spyOn(history, "push");
 
-describe("GameMenu Component", () => {
-  let wrapper: RenderResult;
+let wrapper: RenderResult;
 
-  beforeEach(() => {
-    wrapper = render(
-      <MemoryRouter>
-        <MemoryMenu history={history} />
-      </MemoryRouter>
-    );
+beforeEach(() => {
+  wrapper = render(
+    <Router history={history}>
+      <MemoryMenu />
+    </Router>
+  );
+});
+
+describe("Menu Footer", () => {
+  test("renders 3 buttons", () => {
+    wrapper.getByText("EASY - 16");
+    wrapper.getByText("MEDIUM - 24");
+    wrapper.getByText("HARD - 32");
+  });
+  test("clicked button change its className", () => {
+    expect(
+      wrapper.container.getElementsByClassName("size-button-disabled").length
+    ).toEqual(0);
+    expect(
+      wrapper.container.getElementsByClassName("size-button").length
+    ).toEqual(3);
+    const button = wrapper.getByText("EASY - 16");
+    fireEvent.click(button);
+    expect(
+      wrapper.container.getElementsByClassName("size-button").length
+    ).toEqual(1);
+    expect(
+      wrapper.container.getElementsByClassName("size-button-disabled").length
+    ).toEqual(2);
   });
 
-  describe("Menu Footer", () => {
-    test("renders 3 buttons", () => {
-      wrapper.getByText("EASY - 16");
-      wrapper.getByText("MEDIUM - 24");
-      wrapper.getByText("HARD - 32");
-    });
-    // test("clicked button 'EASY - 16' renders 16cards", () => {
-    //   const history = createMemoryHistory();
-    //   const button = wrapper.getByText("EASY - 16");
-    //   fireEvent.click(button);
-    //   const startButton = wrapper.getByText("START");
-    //   fireEvent.click(startButton);
-    //   expect(screen.getByText("/cards")).toBeInTheDocument();
-    // });
-    // test("clicked button 'MEDIUM - 24' renders 24cards", () => {
-    //   const button = wrapper.getByText("MEDIUM - 24");
-    //   fireEvent.click(button);
-    //   const startButton = wrapper.getByText("START");
-    //   fireEvent.click(startButton);
+  test("should redirect to /cards", () => {
+    const buttonEasy = wrapper.getByText("EASY - 16");
+    fireEvent.click(buttonEasy);
 
-    // });
-    // test("clicked button 'HARD - 32' renders 32cards", () => {
-    //   const button = wrapper.getByText("HARD - 32");
-    //   fireEvent.click(button);
-    //   const startButton = wrapper.getByText("START");
-    //   fireEvent.click(startButton);
-    // });
+    const buttonStart = wrapper.getByText("START");
+    fireEvent.click(buttonStart);
+
+    expect(historyPushSpy).toHaveBeenCalled();
   });
 });

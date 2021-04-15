@@ -1,6 +1,6 @@
 import React from "react";
 import "./card.component.scss";
-import CardIcon from "./card-icon.component";
+import CardIcon from "../card-icon/card-icon.component";
 
 const Card = ({
   isFlipped,

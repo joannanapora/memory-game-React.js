@@ -1,59 +1,65 @@
 import React from "react";
-import { render, fireEvent, waitFor } from "@testing-library/react";
+import {
+  render,
+  fireEvent,
+  RenderResult,
+  waitFor,
+} from "@testing-library/react";
 import CardList from "./card-list.component";
-import { MemoryRouter } from "react-router-dom";
+import { Router } from "react-router-dom";
+import { createMemoryHistory } from "history";
+
+const MOCKED_GRID_CLASS = "grid-container4";
+const MOCKED_CARDS_LIST = [
+  {
+    id: "u32asddagfs4324",
+    isFlipped: false,
+    icon: "Icon7",
+    iconId: 4,
+    isMatched: false,
+  },
+  {
+    id: "u3243bvgfdsfds24",
+    isFlipped: false,
+    icon: "Icon6",
+    iconId: 4,
+    isMatched: false,
+  },
+  {
+    id: "zz344gfdgfdgw324",
+    isFlipped: false,
+    icon: "Icon8",
+    iconId: 5,
+    isMatched: false,
+  },
+  {
+    id: "zz3443wewedgdgf24",
+    isFlipped: false,
+    icon: "Icon12",
+    iconId: 5,
+    isMatched: false,
+  },
+];
 
 describe("CardList Component", () => {
-  const MOCKED_GRID_CLASS = "grid-container4";
-  const MOCKED_CARDS_LIST = [
-    {
-      id: "u32asddagfs4324",
-      isFlipped: false,
-      icon: "Icon7",
-      iconId: 4,
-      isMatched: false,
-    },
-    {
-      id: "u3243bvgfdsfds24",
-      isFlipped: false,
-      icon: "Icon6",
-      iconId: 4,
-      isMatched: false,
-    },
-    {
-      id: "zz344gfdgfdgw324",
-      isFlipped: false,
-      icon: "Icon8",
-      iconId: 5,
-      isMatched: false,
-    },
-    {
-      id: "zz3443wewedgdgf24",
-      isFlipped: false,
-      icon: "Icon12",
-      iconId: 5,
-      isMatched: false,
-    },
-  ];
+  let wrapper: RenderResult;
 
-  let wrapper: any;
+  const history = createMemoryHistory();
+
+  const state = { cards: MOCKED_CARDS_LIST, grid: MOCKED_GRID_CLASS };
+  history.location.state = JSON.stringify(state);
+  const historyPushSpy = jest.spyOn(history, "push");
 
   beforeEach(() => {
     wrapper = render(
-      <MemoryRouter>
+      <Router history={history}>
         <CardList />
-      </MemoryRouter>
+      </Router>
     );
   });
 
-  test("renders Card header correctly", () => {
-    wrapper.getAllByTestId("Memory");
-  });
-
-  test("renders correct initial amount of cards", () => {
-    wrapper.getAllByTestId("Memory");
-    const numberOfRenderedCards = wrapper.getAllByTestId("Memory").length;
-    expect(numberOfRenderedCards).toEqual(MOCKED_CARDS_LIST.length);
+  test("renders cards container", () => {
+    wrapper.getByTestId("memory-cards");
   });
 
   test("grid gets correct initial className", () => {
@@ -126,5 +132,13 @@ describe("CardList Component", () => {
   test("should display RESTART and EXIT buttons", () => {
     wrapper.getByText("RESTART");
     wrapper.getByText("EXIT");
+  });
+
+  test("EXIT should redirect to Menu", () => {
+    const buttonExit = wrapper.getByText("EXIT");
+    fireEvent.click(buttonExit);
+    const buttonYes = wrapper.getByText("YES");
+    fireEvent.click(buttonYes);
+    expect(historyPushSpy).toHaveBeenCalled();
   });
 });

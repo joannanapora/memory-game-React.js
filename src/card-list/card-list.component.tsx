@@ -16,6 +16,7 @@ const TIME_FOR_PEEK = 800;
 const CardList = () => {
   const location: any = useLocation();
   const history: any = useHistory();
+
   const parsedCards = JSON.parse(location.state).cards;
   const parsedGrid = JSON.parse(location.state).grid;
 
@@ -29,12 +30,9 @@ const CardList = () => {
     min: 0,
     sec: 0,
   });
-<<<<<<< Updated upstream
-=======
-  // const [moves, setMoves] = useState<number>(0);
->>>>>>> Stashed changes
+  const [moves, setMoves] = useState<number>(0);
 
-  function openResetModal() {
+  const openResetModal = () => {
     const listPrepareToReset = cards.map((el) => {
       if (el.isMatched) {
         return el;
@@ -44,26 +42,23 @@ const CardList = () => {
     });
     setCards(listPrepareToReset);
     setReset(true);
-  }
+  };
 
-  function openExitModal() {
+  const openExitModal = () => {
     setExit(true);
-  }
+  };
 
-  function closeResetModal() {
+  const closeResetModal = () => {
     setReset(false);
     setCards(shuffleCards(prepareSetOfCards(parsedCards.length / 2)));
     setResetTimer(false);
+    setMoves(0);
     setCounter({ min: 0, sec: 0 });
-<<<<<<< Updated upstream
-=======
-    // setMoves(0);
->>>>>>> Stashed changes
-  }
+  };
 
-  function closeExitModal() {
+  const closeExitModal = () => {
     setExit(false);
-  }
+  };
 
   useEffect(() => {
     const checkIfWin = cards.find((card: ICard) => !card.isMatched);
@@ -105,16 +100,13 @@ const CardList = () => {
   };
 
   const toggleClass = (id: string) => {
-<<<<<<< Updated upstream
-=======
-    // setMoves(moves + 1);
->>>>>>> Stashed changes
     setResetTimer(true);
     setReset(false);
     if (flippedCards.length < 2) {
       const listAfterClick = cards.map((element: any) => {
         if (id === element.id && element.id !== flippedCards[0]?.id) {
           setflippedCards([...flippedCards, element]);
+          setMoves(moves + 1);
           return { ...element, isFlipped: true };
         }
         return element;
@@ -126,30 +118,23 @@ const CardList = () => {
   return cards ? (
     isWinner ? (
       <div>
-<<<<<<< Updated upstream
-        <WinnerScreen minutes={counter.min} seconds={counter.sec} />
-=======
         <WinnerScreen
           minutes={counter.min}
           seconds={counter.sec}
-          // moves={moves}
+          moves={moves}
         />
->>>>>>> Stashed changes
       </div>
     ) : (
-      <div className="memory-game-container">
+      <div data-testid="memory-cards" className="memory-game-container">
         <div className="quit-reset-container">
-          <div className="timer">
+          <div>
             {resetTimer ? (
               <Timer counter={counter} setCounter={setCounter} />
             ) : (
-              "0 m : 0 s"
+              "time: 0 m : 0 s"
             )}
           </div>
-<<<<<<< Updated upstream
-=======
-          {/* <div>moves: {moves}</div> */}
->>>>>>> Stashed changes
+          <div>moves: {moves}</div>
           <button onClick={openResetModal} className="game-button">
             RESTART
           </button>

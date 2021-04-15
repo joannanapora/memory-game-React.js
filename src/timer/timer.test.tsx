@@ -15,7 +15,6 @@ beforeEach(() => {
 
 describe("Timer Component", () => {
   test("renders Timer correctly", () => {
-    wrapper.getByText("m");
-    wrapper.getByText("s");
+    wrapper.getByTestId("timer");
   });
 });
