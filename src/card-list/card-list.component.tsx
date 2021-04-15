@@ -53,6 +53,7 @@ const CardList = () => {
     setCards(shuffleCards(prepareSetOfCards(parsedCards.length / 2)));
     setResetTimer(false);
     setMoves(0);
+    setCounter({ min: 0, sec: 0 });
   };
 
   const closeExitModal = () => {

@@ -1,5 +1,4 @@
 import React from "react";
-import "./card-icon.styles.scss";
 import { ReactComponent as Icon1 } from "../assets/001-arc de triomphe.svg";
 import { ReactComponent as Icon18 } from "../assets/002-azadi.svg";
 import { ReactComponent as Icon19 } from "../assets/003-bayterek.svg";
@@ -48,6 +47,7 @@ import { ReactComponent as Icon43 } from "../assets/048-white house.svg";
 import { ReactComponent as Icon46 } from "../assets/045-tian-tan-buddha.svg";
 import { ReactComponent as Icon45 } from "../assets/046-torii gate.svg";
 import { ReactComponent as Icon44 } from "../assets/047-turning torso.svg";
+import "./card-icon.styles.scss";
 
 const CardIcon = ({ iconName }: { iconName: string }) => {
   let iconToReturn;
